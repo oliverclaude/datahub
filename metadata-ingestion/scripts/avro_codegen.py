@@ -39,13 +39,13 @@ def load_schema_file(schema_file: Union[str, Path]) -> dict:
 
 def load_schemas(schemas_path: str) -> Dict[str, dict]:
     required_schema_files = {
-        "mxe/MetadataChangeEvent.avsc",
-        "mxe/MetadataChangeProposal.avsc",
-        "usage/UsageAggregation.avsc",
-        "mxe/MetadataChangeLog.avsc",
-        "mxe/PlatformEvent.avsc",
-        "platform/event/v1/EntityChangeEvent.avsc",
-        "metadata/query/filter/Filter.avsc",  # temporarily added to test reserved keywords support
+        "linkedin/mxe/MetadataChangeEvent.avsc",
+        "linkedin/mxe/MetadataChangeProposal.avsc",
+        "linkedin/usage/UsageAggregation.avsc",
+        "linkedin/mxe/MetadataChangeLog.avsc",
+        "linkedin/mxe/PlatformEvent.avsc",
+        "linkedin/platform/event/v1/EntityChangeEvent.avsc",
+        "linkedin/metadata/query/filter/Filter.avsc",  # temporarily added to test reserved keywords support
     }
 
     # Find all the aspect schemas / other important schemas.

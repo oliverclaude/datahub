@@ -139,6 +139,26 @@ type Query {
     mlPrimaryKey(urn: String!): MLPrimaryKey
 
     """
+    Fetch an SSIS Package by primary key (urn)
+    """
+    ssisPackage(urn: String!): SsisPackage
+
+    """
+    Fetch an SSIS Control Flow by primary key (urn)
+    """
+    ssisControlFlow(urn: String!): SsisControlFlow
+
+    """
+    Fetch an SSIS Control Task by primary key (urn)
+    """
+    ssisControlTask(urn: String!): SsisControlTask
+
+    """
+    Fetch an SSIS Data Flow  by primary key (urn)
+    """
+    ssisDataFlow(urn: String!): SsisDataFlow
+
+    """
     List all DataHub Users
     """
     listUsers(input: ListUsersInput!): ListUsersResult
@@ -411,6 +431,26 @@ type Mutation {
     Update the metadata about a particular Data Job (Task)
     """
     updateDataJob(urn: String!, input: DataJobUpdateInput!): DataJob
+
+    """
+    Update the metadata about a particular Ssis Package
+    """
+    updateSsisPackage(urn: String!, input: SsisPackageUpdateInput!): SsisPackage
+
+    """
+    Update the metadata about a particular Ssis Control Flow
+    """
+    updateSsisControlFlow(urn: String!, input: SsisControlFlowUpdateInput!): SsisControlFlow
+
+    """
+    Update the metadata about a particular Ssis Control Task
+    """
+    updateSsisControlTask(urn: String!, input: SsisControlTaskUpdateInput!): SsisControlTask
+
+    """
+    Update the metadata about a particular Ssis Data FLow
+    """
+    updateSsisDataFlow(urn: String!, input: SsisDataFlowUpdateInput!): SsisDataFlow
 
     """
     Create a new tag. Requires the 'Manage Tags' or 'Create Tags' Platform Privilege. If a Tag with the provided ID already exists,
@@ -1095,6 +1135,27 @@ enum EntityType {
     """
     DATA_PRODUCT
 
+
+    """
+    a SSIS Package
+    """
+    SSIS_PACKAGE
+
+    """
+    a SSIS Control Flow
+    """
+    SSIS_CONTROL_FLOW
+
+    """
+    a SSIS Control Task
+    """
+    SSIS_CONTROL_TASK
+
+    """
+    a SSIS Data Flow
+    """
+    SSIS_DATAFLOW
+
     """
     A Custom Ownership Type
     """
@@ -1645,7 +1706,7 @@ type Dataset implements EntityWithRelationships & Entity & BrowsableEntity {
     siblings: SiblingProperties
 
     """
-    Lineage information for the column-level. Includes a list of objects
+    Lineage information for the column-level. implements a list of objects
     detailing which columns are upstream and which are downstream of each other.
     The upstream and downstream columns are from datasets.
     """
@@ -2875,7 +2936,7 @@ Institutional memory metadata, meaning internal links and pointers related to an
 """
 type InstitutionalMemory {
     """
-    List of records that represent the institutional memory or internal documentation of an entity
+    List of types that represent the institutional memory or internal documentation of an entity
     """
     elements: [InstitutionalMemoryMetadata!]!
 }
@@ -2967,7 +3028,7 @@ type SchemaMetadata implements Aspect {
     fields: [SchemaField!]!
 
     """
-    Client provided list of fields that define primary keys to access record
+    Client provided list of fields that define primary keys to access type
     """
     primaryKeys: [String!]
 
@@ -3053,7 +3114,7 @@ type Schema {
     fields: [SchemaField!]!
 
     """
-    Client provided list of fields that define primary keys to access record
+    Client provided list of fields that define primary keys to access type
     """
     primaryKeys: [String!]
 
@@ -4349,7 +4410,7 @@ type Ownership {
     owners: [Owner!]
 
     """
-    Audit stamp containing who last modified the record and when
+    Audit stamp containing who last modified the type and when
     """
     lastModified: AuditStamp!
 }
@@ -4635,6 +4696,140 @@ input DataJobUpdateInput {
 }
 
 """
+Arguments provided to update a Ssis Control Flow Entity
+"""
+input SsisControlFlowUpdateInput {
+    """
+    Update to ownership
+    """
+    ownership: OwnershipUpdate
+
+    """
+    Deprecated, use tags field instead
+    Update to global tags
+    """
+    globalTags: GlobalTagsUpdate
+
+    """
+    Update to deprecation status
+    """
+    deprecation: DatasetDeprecationUpdate
+
+    """
+    Update to institutional memory, ie documentation
+    """
+    institutionalMemory: InstitutionalMemoryUpdate
+
+
+    """
+    Update to tags
+    """
+    tags: GlobalTagsUpdate
+
+    """
+    Update to editable properties
+    """
+    editableProperties: SsisControlFlowEditablePropertiesUpdate
+}
+
+"""
+Arguments provided to update a Ssis Control Task Entity
+"""
+input SsisControlTaskUpdateInput {
+    """
+    Update to ownership
+    """
+    ownership: OwnershipUpdate
+
+
+    """
+    Update to deprecation status
+    """
+    deprecation: DatasetDeprecationUpdate
+
+    """
+    Update to institutional memory, ie documentation
+    """
+    institutionalMemory: InstitutionalMemoryUpdate
+
+    """
+    Update to tags
+    """
+    tags: GlobalTagsUpdate
+
+    """
+    Update to editable properties
+    """
+    editableProperties: SsisControlTaskEditablePropertiesUpdate
+}
+
+"""
+Arguments provided to update a Ssis Data Flow Entity
+"""
+input SsisDataFlowUpdateInput {
+    """
+    Update to ownership
+    """
+    ownership: OwnershipUpdate
+
+
+
+    """
+    Update to tags
+    """
+    tags: GlobalTagsUpdate
+
+    """
+    Update to deprecation status
+    """
+    deprecation: DatasetDeprecationUpdate
+
+    """
+    Update to institutional memory, ie documentation
+    """
+    institutionalMemory: InstitutionalMemoryUpdate
+
+
+    """
+    Update to editable properties
+    """
+    editableProperties: SsisDataFlowEditablePropertiesUpdate
+}
+
+"""
+Arguments provided to update a Ssis Package Entity
+"""
+input SsisPackageUpdateInput {
+    """
+    Update to ownership
+    """
+    ownership: OwnershipUpdate
+
+
+
+    """
+    Update to tags
+    """
+    tags: GlobalTagsUpdate
+
+    """
+    Update to deprecation status
+    """
+    deprecation: DatasetDeprecationUpdate
+
+    """
+    Update to institutional memory, ie documentation
+    """
+    institutionalMemory: InstitutionalMemoryUpdate
+
+    """
+    Update to editable properties
+    """
+    editableProperties: SsisPackageEditablePropertiesUpdate
+}
+
+
+"""
 Arguments provided to update a Dataset Entity
 """
 input DatasetUpdateInput {
@@ -4654,8 +4849,7 @@ input DatasetUpdateInput {
     institutionalMemory: InstitutionalMemoryUpdate
 
     """
-    Deprecated, use tags field instead
-    Update to global tags
+    depreciated: Update to global tags
     """
     globalTags: GlobalTagsUpdate
 
@@ -4786,6 +4980,47 @@ input DataJobEditablePropertiesUpdate {
     """
     description: String!
 }
+
+"""
+Update to writable Ssis Package fields
+"""
+input SsisPackageEditablePropertiesUpdate {
+    """
+    Writable description aka documentation for a Data Job
+    """
+    description: String!
+}
+
+"""
+Update to writable Ssis Control Flow fields
+"""
+input SsisControlFlowEditablePropertiesUpdate {
+    """
+    Writable description aka documentation for a Data Job
+    """
+    description: String!
+}
+
+"""
+Update to writable Ssis Control Task fields
+"""
+input SsisControlTaskEditablePropertiesUpdate {
+    """
+    Writable description aka documentation for a Data Job
+    """
+    description: String!
+}
+
+"""
+Update to writable Ssis Data Flow fields
+"""
+input SsisDataFlowEditablePropertiesUpdate {
+    """
+    Writable description aka documentation for a Data Job
+    """
+    description: String!
+}
+
 
 """
 Update to writable Data Flow fields
@@ -6144,7 +6379,7 @@ type DataFlow implements EntityWithRelationships & Entity & BrowsableEntity {
     dataJobs: DataFlowDataJobsRelationships @deprecated
 
     """
-    Standardized platform urn where the datflow is defined
+    Standardized platform urn where the dataflow is defined
     """
     platform: DataPlatform!
 
@@ -6609,7 +6844,7 @@ type DataJobInputOutput {
     inputDatajobs: [DataJob!] @deprecated
 
     """
-    Lineage information for the column-level. Includes a list of objects
+    Lineage information for the column-level. implements a list of objects
     detailing which columns are upstream and which are downstream of each other.
     The upstream and downstream columns are from datasets.
     """
@@ -9190,6 +9425,496 @@ input CreateGroupInput {
   description: String
 }
 
+
+
+type EditableSsisControlTaskProperties  {
+    """
+     Edited documentation of the ssis package
+    """
+    description: String
+}
+
+type EditableSsisDataFlowProperties  {
+    """
+     Edited documentation of the ssis package
+    """
+    description: String
+}
+
+type EditableSsisPackageProperties  {
+    """
+     Edited documentation of the ssis package
+    """
+    description: String
+}
+
+type EditableSsisControlFlowProperties {
+
+    """
+    Control Flow Description
+    """
+    description:  String
+}
+
+"""
+ Information about a Data processing flow
+"""
+type SsisControlFlowInfo
+{
+
+    """
+     Flow name
+    """
+    name: String!
+
+    """
+     Flow description
+    """
+    description: String
+
+    """
+     Optional project/namespace associated with the flow
+    """
+    project: String
+
+
+    """
+     A timestamp documenting when the asset was created in the source Data Platform (not on DataHub)
+    """
+    created:  Long
+
+    """
+    External URL associated with the DataFlow
+    """
+    externalUrl: String
+
+    """
+    A list of platform specific metadata tuples
+    """
+    customProperties: [CustomPropertiesEntry!]
+}
+
+
+
+type SsisControlFlow implements EntityWithRelationships & Entity & BrowsableEntity{
+
+    urn: String!
+    type: EntityType!
+
+    name: String!
+    """
+    The timestamp for the last time this entity was ingested
+    """
+    lastIngested: Long
+
+    ssisPackage: SsisPackage
+
+    description: String
+
+    properties: SsisControlFlowInfo
+    editableProperties: EditableSsisControlFlowProperties
+
+    domain: DomainAssociation
+    deprecation: Deprecation
+    ownership: Ownership
+    status: Status
+    globalTags: GlobalTags
+    browsePaths: [BrowsePath!]
+    glossaryTerms: GlossaryTerms
+    institutionalMemory: InstitutionalMemory
+    dataPlatformInstance: DataPlatformInstance
+    browsePathV2: BrowsePathV2
+    structuredProperties: StructuredProperties
+
+    """
+    Granular API for querying edges extending from this entity
+    """
+    relationships(input: RelationshipsInput!): EntityRelationshipsResult
+
+    """
+    Edges extending from this entity grouped by direction in the lineage graph
+    """
+    lineage(input: LineageInput!): EntityLineageResult
+
+    """
+    Experimental API.
+    For fetching extra entities that do not have custom UI code yet
+    """
+    aspects(input: AspectParams): [RawAspect!]
+
+    """
+    Whether or not this entity exists on DataHub
+    """
+    exists: Boolean
+}
+"""
+ Information about a Ssis Control Task
+"""
+type SsisControlTaskInfo {
+
+    """
+     Job name
+    """
+    name: String!
+
+    """
+     Job description
+    """
+    description: String
+
+    """
+     DataTask type
+    
+    """
+    type: SsisControlTaskType
+
+#    """
+#     SsisControlFlow urn that this job is part of
+#    """
+#    controlFlowUrn:  Urn
+
+    """
+     A timestamp documenting when the asset was created in the source Data Platform (not on DataHub)
+    """
+    created: Long
+
+    """
+    External URL associated with the DataFlow
+    """
+    externalUrl: String
+
+    """
+    A list of platform specific metadata tuples
+    """
+    customProperties: [CustomPropertiesEntry!]
+
+}
+
+"""
+ Information about the inputs and outputs of a Data processing job
+"""
+type SsisControlTaskInputOutput {
+
+
+    """
+    Input datasets produced by the data job during processing
+    """
+    inputDatasets: [Dataset!]
+
+    """
+    Output datasets produced by the data job during processing
+    """
+    outputDatasets: [Dataset!]
+
+    """
+    Input SSIS Control Task that this task depends on
+    """
+    inputControlTasks: [SsisControlTask!]
+
+    """
+    Container SSIS Control  that this task resides in
+    """
+    containerControlTask: SsisControlTask
+}
+
+
+
+type SsisControlTask implements EntityWithRelationships & Entity & BrowsableEntity{
+
+    urn: String!
+    type: EntityType!
+    name: String!
+    """
+    The timestamp for the last time this entity was ingested
+    """
+    lastIngested: Long
+
+    flow: SsisControlFlow
+
+    description: String
+    domain: DomainAssociation
+    deprecation: Deprecation
+
+    properties: SsisControlTaskInfo
+    editableProperties: EditableSsisControlTaskProperties
+    inputOutput: SsisControlTaskInputOutput
+    ownership: Ownership
+    status: Status
+    globalTags: GlobalTags
+    browsePaths: [BrowsePath!]
+    glossaryTerms: GlossaryTerms
+    institutionalMemory: InstitutionalMemory
+    dataPlatformInstance: DataPlatformInstance
+    browsePathV2: BrowsePathV2
+    structuredProperties: StructuredProperties
+
+    """
+    Granular API for querying edges extending from this entity
+    """
+    relationships(input: RelationshipsInput!): EntityRelationshipsResult
+
+    """
+    Edges extending from this entity grouped by direction in the lineage graph
+    """
+    lineage(input: LineageInput!): EntityLineageResult
+
+    """
+    Experimental API.
+    For fetching extra entities that do not have custom UI code yet
+    """
+    aspects(input: AspectParams): [RawAspect!]
+
+    """
+    Whether or not this entity exists on DataHub
+    """
+    exists: Boolean
+}
+
+"""
+ The various types of support ssis control tasks
+"""
+enum SsisControlTaskType {
+
+    SCRIPT
+    FOR_LOOP
+    DATA_FLOW
+    PACKAGE
+    SQL
+    CONTAINER
+
+}
+
+
+"""
+ Information about a Data processing flow
+"""
+type SsisPackageInfo {
+
+    """
+     Flow name
+    """
+    name: String!
+
+    """
+     Package description
+    """
+    description:  String
+
+    """
+     Optional project/namespace associated with the flow
+    """
+    project:  String
+
+    """
+     A timestamp documenting when the asset was created in the source Data Platform (not on DataHub)
+    """
+    created:  Long
+
+    """
+    External URL associated with the DataFlow
+    """
+    externalUrl: String
+
+    """
+    A list of platform specific metadata tuples
+    """
+    customProperties: [CustomPropertiesEntry!]
+}
+
+
+
+
+
+type SsisPackage implements EntityWithRelationships & Entity & BrowsableEntity {
+
+    urn: String!
+    type: EntityType!
+    name: String!
+    description: String
+
+    """
+    Workflow orchestrator ie Ssis
+    """
+    orchestrator: String!
+
+    """
+    Cluster of the flow
+    """
+    cluster: String!
+
+    """
+    The timestamp for the last time this entity was ingested
+    """
+    lastIngested: Long
+
+    """
+    Standardized platform urn where the dataflow is defined
+    """
+    platform: DataPlatform!
+
+    domain: DomainAssociation
+    deprecation: Deprecation
+
+    properties: SsisPackageInfo
+    editableProperties: EditableSsisPackageProperties
+    ownership: Ownership
+
+    status: Status
+    globalTags: GlobalTags
+    browsePaths: [BrowsePath!]
+    glossaryTerms: GlossaryTerms
+    institutionalMemory: InstitutionalMemory
+    dataPlatformInstance: DataPlatformInstance
+    browsePathV2: BrowsePathV2
+    structuredProperties: StructuredProperties
+
+    """
+    Granular API for querying edges extending from this entity
+    """
+    relationships(input: RelationshipsInput!): EntityRelationshipsResult
+
+    """
+    Edges extending from this entity grouped by direction in the lineage graph
+    """
+    lineage(input: LineageInput!): EntityLineageResult
+
+    """
+    Experimental API.
+    For fetching extra entities that do not have custom UI code yet
+    """
+    aspects(input: AspectParams): [RawAspect!]
+
+    """
+    Whether or not this entity exists on DataHub
+    """
+    exists: Boolean
+}
+
+
+"""
+Information about a Ssis Data Flow
+"""
+type SsisDataFlowInfo {
+
+    """
+    Job name
+    """
+    name: String!
+
+    """
+    Job description
+    """
+    description: String
+
+    #   """
+    #     ControlTask urn that this flow is part of
+    #    """
+    #    controlTaskUrn:  SsisControlTask
+
+    """
+    A timestamp documenting when the asset was created in the source Data Platform (not on DataHub)
+    """
+    created:  Long
+
+
+    """
+    External URL associated with the DataFlow
+    """
+    externalUrl: String
+
+    """
+    A list of platform specific metadata tuples
+    """
+    customProperties: [CustomPropertiesEntry!]
+
+}
+
+"""
+Information about the inputs and outputs of a ssis data flow
+"""
+type SsisDataFlowInputOutput {
+
+
+    """
+    Input datasets produced by the data flow during processing
+    """
+    inputDatasets: [Dataset!]
+
+    """
+    Output datasets produced by the data flow during processing
+    """
+    outputDatasets: [Dataset!]
+
+    """
+
+    Input SSIS Control Task that this data flow depends on
+    """
+    inputControlTask: SsisControlTask
+
+    """
+    Fine-grained column-level lineages
+    Not currently supported in the UI
+    Use UpstreamLineage aspect for datasets to express Column Level Lineage for the UI
+    """
+    fineGrainedLineages:  [FineGrainedLineage]
+}
+
+
+
+
+type SsisDataFlow implements EntityWithRelationships & Entity & BrowsableEntity {
+    urn: String!
+    """
+    A standard Entity Type
+    """
+    type: EntityType!
+    name: String!
+    description: String
+
+    ssisPackage: SsisPackage
+    """
+    The timestamp for the last time this entity was ingested
+    """
+    lastIngested: Long
+
+    #    ssisDataFlowKey: SsisDataFlowKey
+    domain: DomainAssociation
+    deprecation: Deprecation
+    properties: SsisDataFlowInfo
+    editableProperties: EditableSsisDataFlowProperties
+    inputOutput: SsisDataFlowInputOutput
+    ownership: Ownership
+    status: Status
+    globalTags: GlobalTags
+    browsePaths: [BrowsePath!]
+    glossaryTerms: GlossaryTerms
+    institutionalMemory: InstitutionalMemory
+    dataPlatformInstance: DataPlatformInstance
+    browsePathV2: BrowsePathV2
+    structuredProperties: StructuredProperties
+
+    """
+    Granular API for querying edges extending from this entity
+    """
+    relationships(input: RelationshipsInput!): EntityRelationshipsResult
+
+    """
+    Edges extending from this entity grouped by direction in the lineage graph
+    """
+    lineage(input: LineageInput!): EntityLineageResult
+
+    """
+    Experimental API.
+    For fetching extra entities that do not have custom UI code yet
+    """
+    aspects(input: AspectParams): [RawAspect!]
+
+    """
+    Whether or not this entity exists on DataHub
+    """
+    exists: Boolean
+}
+
 """
 An ML Model Metadata Entity Note that this entity is incubating
 """
@@ -9516,7 +10241,7 @@ type MLModelGroup implements EntityWithRelationships & Entity & BrowsableEntity 
 
 type MLModelGroupProperties {
 
-description: String
+    description: String
 
     createdAt: Long
 
@@ -11847,7 +12572,7 @@ type DataProductProperties {
     externalUrl: String
 
     """
-    Number of children entities inside of the Data Product. This number includes soft deleted entities.
+    Number of children entities inside of the Data Product. This number implements soft deleted entities.
     """
     numAssets: Int
 
@@ -12157,7 +12882,7 @@ type EntityTypeInfo {
     type: EntityType!
 
     """
-    The fully qualified name of the entity type. This includes its namespace
+    The fully qualified name of the entity type. This implements its namespace
     """
     qualifiedName: String!
 

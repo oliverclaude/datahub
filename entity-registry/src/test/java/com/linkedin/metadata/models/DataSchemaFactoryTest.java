@@ -26,4 +26,11 @@ public class DataSchemaFactoryTest {
     dataSchema = dsf.getAspectSchema(TestConstants.TEST_ASPECT_NAME);
     assertTrue(dataSchema.isPresent(), TestConstants.TEST_ASPECT_NAME);
   }
+
+  @Test
+  public void testGetAspectSchema() throws Exception {
+    DataSchemaFactory dsf = DataSchemaFactory.getInstance();
+    Optional<DataSchema> dataSchema = dsf.getAspectSchema("ssisPackageKey");
+    assertTrue(dataSchema.isPresent());
+  }
 }

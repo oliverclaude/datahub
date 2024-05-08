@@ -1,0 +1,34 @@
+namespace com.linkedin.ssis
+
+import com.linkedin.common.Urn
+
+/**
+ * Key for a SSIS Control Task
+ */
+@Aspect = {
+  "name": "ssisControlTaskKey"
+}
+record SsisControlTaskKey {
+  /**
+  * Standardized ssis package urn representing the package for the flow
+  */
+  @Searchable = {
+    "fieldName": "ssisControlFlow",
+    "fieldType": "URN_PARTIAL",
+    "queryByDefault": false
+  }
+  @Relationship = {
+    "name": "IsPartOf",
+    "entityTypes": [ "ssisControlFlow" ]
+  }
+  flow: Urn
+
+  /**
+  * Unique Identifier of the SSIS Data Flow
+  */
+  @Searchable = {
+    "fieldType": "WORD_GRAM",
+    "enableAutocomplete": true
+  }
+  controlTaskId: string
+}

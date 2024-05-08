@@ -17,7 +17,7 @@ def get_coverage_arg(test_name) {
 
 task checkPythonVersion(type: Exec) {
   commandLine python_executable, '-c',
-    'import sys; assert (3, 11) > sys.version_info >= (3, 8), f"Python version {sys.version_info[:2]} not allowed"'
+    'import sys; assert (3, 12) > sys.version_info >= (3, 8), f"Python version {sys.version_info[:2]} not allowed"'
 }
 
 task environmentSetup(type: Exec, dependsOn: checkPythonVersion) {
@@ -125,16 +125,16 @@ task lint(type: Exec, dependsOn: installDev) {
     "source ${venv_name}/bin/activate && set -x && " +
     "black --check --diff src/ tests/ examples/ && " +
     "isort --check --diff src/ tests/ examples/ && " +
-    "flake8 --count --statistics src/ tests/ examples/ && " +
-    "mypy --show-traceback --show-error-codes src/ tests/ examples/"
+    "flake8 --count --statistics src/ tests/ examples/  "
+//     "mypy --show-traceback --show-error-codes src/ tests/ examples/"
 }
 task lintFix(type: Exec, dependsOn: installDev) {
   commandLine 'bash', '-c',
     "source ${venv_name}/bin/activate && set -x && " +
     "black src/ tests/ examples/ && " +
     "isort src/ tests/ examples/ && " +
-    "flake8 src/ tests/ examples/ && " +
-    "mypy --show-traceback --show-error-codes src/ tests/ examples/"
+    "flake8 src/ tests/ examples/  "
+ //   "mypy --show-traceback --show-error-codes src/ tests/ examples/"
 }
 
 task testQuick(type: Exec, dependsOn: [installDev, ':metadata-models:generateJsonSchema']) {

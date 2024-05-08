@@ -1,0 +1,73 @@
+namespace com.linkedin.ssis
+
+import com.linkedin.common.CustomProperties
+import com.linkedin.common.ExternalReference
+import com.linkedin.common.Urn
+import com.linkedin.common.TimeStamp
+import com.linkedin.domain.Domains
+import com.linkedin.common.Deprecation
+import com.linkedin.common.Ownership
+import com.linkedin.common.Status
+import com.linkedin.common.GlobalTags
+import com.linkedin.common.BrowsePaths
+import com.linkedin.common.GlossaryTerms
+import com.linkedin.common.InstitutionalMemory
+import com.linkedin.common.DataPlatformInstance
+import com.linkedin.common.BrowsePathsV2
+import com.linkedin.structured.StructuredProperties
+import com.linkedin.datajob.VersionInfo
+
+/**
+ * Information about a Ssis Control Task
+ */
+@Aspect = {
+  "name": "ssisControlTaskInfo"
+}
+record SsisControlTaskInfo includes
+       CustomProperties, ExternalReference{
+
+  /**
+   * Job name
+   */
+  @Searchable = {
+    "fieldType": "WORD_GRAM",
+    "enableAutocomplete": true,
+    "boostScore": 10.0,
+    "fieldNameAliases": [ "_entityName" ]
+  }
+  name: string
+
+  /**
+   * Job description
+   */
+  @Searchable = {
+    "fieldType": "TEXT",
+    "hasValuesFieldName": "hasDescription"
+  }
+  description: optional string
+
+  /**
+   * DataTask type
+   *
+   */
+  type: SsisControlTaskType
+
+  /**
+   * SsisControlFlow urn that this job is part of
+   */
+  controlFlowUrn:  Urn
+
+  /**
+   * A timestamp documenting when the asset was created in the source Data Platform (not on DataHub)
+   */
+  @Searchable = {
+    "/time": {
+      "fieldName": "createdAt",
+      "fieldType": "DATETIME"
+    }
+  }
+  created: optional TimeStamp
+
+
+
+}

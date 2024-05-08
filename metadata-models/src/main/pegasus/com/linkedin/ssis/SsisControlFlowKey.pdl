@@ -1,0 +1,35 @@
+namespace com.linkedin.ssis
+
+import com.linkedin.common.Urn
+
+/**
+ * Key for a SSIS Package
+ */
+@Aspect = {
+  "name": "ssisControlFlowKey"
+}
+record SsisControlFlowKey {
+  /**
+  * Standardized ssis package urn representing the package for the flow
+  */
+  @Searchable = {
+    "fieldName": "ssisPackage",
+    "fieldType": "URN_PARTIAL",
+    "queryByDefault": false
+  }
+  @Relationship = {
+    "name": "CFIsPartOf",
+    "entityTypes": [ "ssisPackage" ]
+  }
+  ssisPackage: Urn
+
+  /**
+  * Unique Identifier of the SsisControlFlow
+  */
+
+  @Searchable = {
+    "fieldType": "WORD_GRAM",
+    "enableAutocomplete": true
+  }
+  controlFlowId: string
+}

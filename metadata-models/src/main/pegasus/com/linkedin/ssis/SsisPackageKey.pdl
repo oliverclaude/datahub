@@ -1,0 +1,37 @@
+namespace com.linkedin.ssis
+
+import com.linkedin.common.Urn
+
+
+/**
+ * Key for a SSIS Package
+ */
+@Aspect = {
+  "name": "ssisPackageKey"
+}
+record SsisPackageKey {
+  /**
+  * Workflow manager like azkaban, airflow which orchestrates the flow
+  */
+  @Searchable = {
+    "fieldType": "TEXT_PARTIAL"
+  }
+  orchestrator: string
+
+  /**
+  * Unique Identifier of the ssis package
+  */
+  @Searchable = {
+    "fieldType": "WORD_GRAM",
+    "enableAutocomplete": true
+  }
+  ssisPackageId: string
+
+  /**
+  * Cluster where the flow is executed
+  */
+  @Searchable = {
+    "fieldType": "TEXT_PARTIAL"
+  }
+  cluster: string
+}

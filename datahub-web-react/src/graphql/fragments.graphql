@@ -1168,6 +1168,34 @@ fragment entityDisplayNameFields on Entity {
     ... on MLModel {
         name
     }
+    ... on SsisControlTask {
+        name
+        properties {
+            name,
+            description
+        }
+    }
+    ... on SsisControlFlow {
+        name
+        properties {
+            name,
+            description
+        }
+    }
+    ... on SsisDataFlow {
+        name
+        properties {
+            name,
+            description
+        }
+    }
+    ... on SsisPackage {
+        name
+        properties {
+            name,
+            description
+        }
+    }
     ... on MLModelGroup {
         name
     }

@@ -1,0 +1,19 @@
+namespace com.linkedin.ssis
+
+/**
+ * The various types of support ssis control tasks
+ */
+enum SsisControlTaskType {
+
+  SCRIPT
+
+  FOR_LOOP
+
+  DATA_FLOW
+
+  PACKAGE
+
+  SQL
+
+  CONTAINER
+}

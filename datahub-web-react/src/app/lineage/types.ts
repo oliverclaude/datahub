@@ -20,6 +20,8 @@ import {
     SchemaMetadata,
     SiblingProperties,
     Status,
+    SsisDataFlow,
+    SsisControlTask,
 } from '../../types.generated';
 
 export type EntitySelectParams = {
@@ -171,7 +173,16 @@ export type EntityAndType =
     | {
           type: EntityType.MlprimaryKey;
           entity: MlPrimaryKey;
-      };
+      }
+    | {
+        type: EntityType.SsisDataflow;
+        entity: SsisDataFlow;
+    }
+    | {
+        type: EntityType.SsisControlTask;
+        entity: SsisControlTask;
+    }
+    ;
 
 export interface LineageResult {
     urn: string;

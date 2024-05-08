@@ -1,0 +1,66 @@
+fragment ssisControlFlowFields on SsisControlFlow {
+    urn
+    type
+    name
+    ssisPackage {
+        urn
+        type
+        orchestrator
+        platform {
+            ...platformFields
+        }
+    }
+    ownership {
+        ...ownershipFields
+    }
+    properties {
+        name
+        description
+    }
+    editableProperties {
+        description
+    }
+    globalTags {
+        ...globalTagsFields
+    }
+    glossaryTerms {
+        ...glossaryTerms
+    }
+    deprecation {
+        ...deprecationFields
+    }
+}
+query getSsisControlFlow($urn: String!) {
+    ssisControlFlow(urn: $urn) {
+        ...ssisControlFlowFields
+
+        upstream: lineage(input: { direction: UPSTREAM, start: 0, count: 100 }) {
+            ...partialLineageResults
+        }
+
+        downstream: lineage(input: { direction: DOWNSTREAM, start: 0, count: 100 }) {
+            ...partialLineageResults
+        }
+
+        childTasks: relationships(input: { types: ["IsPartOf"], direction: INCOMING, start: 0, count: 100 }) {
+            start
+            count
+            total
+            relationships {
+                entity {
+                    ...ssisControlTaskFields
+                }
+            }
+        }
+        autoRenderAspects: aspects(input: { autoRenderOnly: true }) {
+            ...autoRenderAspectFields
+        }
+    }
+}
+
+
+mutation updateSsisControlFlow($urn: String!, $input: SsisControlFlowUpdateInput!) {
+    updateSsisControlFlow(urn: $urn, input: $input) {
+        urn
+    }
+}

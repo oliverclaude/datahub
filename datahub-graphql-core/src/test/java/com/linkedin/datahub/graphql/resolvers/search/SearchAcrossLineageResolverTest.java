@@ -61,7 +61,7 @@ public class SearchAcrossLineageResolverTest {
 
   @Test
   public void testAllEntitiesInitialization() {
-    InputStream inputStream = ClassLoader.getSystemResourceAsStream("entity-registry.yml");
+    InputStream inputStream = ClassLoader.getSystemResourceAsStream("test-entity-registry.yaml");
     EntityRegistry entityRegistry = new ConfigEntityRegistry(inputStream);
     SearchAcrossLineageResolver resolver =
         new SearchAcrossLineageResolver(_entityClient, entityRegistry);

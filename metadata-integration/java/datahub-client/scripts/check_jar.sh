@@ -8,6 +8,8 @@ jar -tvf $jarFile |\
       grep -v "META-INF" |\
       grep -v "com/linkedin" |\
       grep -v "com/datahub" |\
+      grep -v "com/discovery" |\
+      grep -v "com/discovery/datahub/schema/ssis/$" |\
       grep -v "datahub" |\
       grep -v "entity-registry" |\
       grep -v "pegasus/" |\

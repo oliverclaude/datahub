@@ -6,5 +6,13 @@ public enum EntityType {
   DASHBOARD,
   DATA_JOB,
   DATA_FLOW,
-  CORP_USER
+  CORP_USER,
+
+  SSIS_PACKAGE,
+
+  SSIS_DATA_FLOW,
+
+  SSIS_CONTROL_FLOW,
+
+  SSIS_CONTROL_TASK
 }

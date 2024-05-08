@@ -1,20 +1,6 @@
 package com.linkedin.datahub.graphql.resolvers.search;
 
-import static com.linkedin.metadata.Constants.CHART_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.CONTAINER_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.CORP_GROUP_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.CORP_USER_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DASHBOARD_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DATASET_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DATA_FLOW_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DATA_JOB_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DOMAIN_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.GLOSSARY_TERM_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_FEATURE_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_FEATURE_TABLE_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_MODEL_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_MODEL_GROUP_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_PRIMARY_KEY_ENTITY_NAME;
+import static com.linkedin.metadata.Constants.*;
 
 import com.datahub.authentication.Authentication;
 import com.google.common.collect.ImmutableList;
@@ -71,7 +57,11 @@ public class SearchUtils {
           EntityType.CONTAINER,
           EntityType.DOMAIN,
           EntityType.DATA_PRODUCT,
-          EntityType.NOTEBOOK);
+          EntityType.NOTEBOOK,
+          EntityType.SSIS_CONTROL_FLOW,
+          EntityType.SSIS_DATAFLOW,
+          EntityType.SSIS_PACKAGE,
+          EntityType.SSIS_CONTROL_TASK);
 
   /** Entities that are part of autocomplete by default in Auto Complete Across Entities */
   public static final List<EntityType> AUTO_COMPLETE_ENTITY_TYPES =
@@ -90,7 +80,11 @@ public class SearchUtils {
           EntityType.CORP_USER,
           EntityType.CORP_GROUP,
           EntityType.NOTEBOOK,
-          EntityType.DATA_PRODUCT);
+          EntityType.DATA_PRODUCT,
+          EntityType.SSIS_CONTROL_FLOW,
+          EntityType.SSIS_DATAFLOW,
+          EntityType.SSIS_PACKAGE,
+          EntityType.SSIS_CONTROL_TASK);
 
   /** Entities that are part of browse by default */
   public static final List<EntityType> BROWSE_ENTITY_TYPES =
@@ -104,7 +98,11 @@ public class SearchUtils {
           EntityType.MLFEATURE_TABLE,
           EntityType.DATA_FLOW,
           EntityType.DATA_JOB,
-          EntityType.NOTEBOOK);
+          EntityType.NOTEBOOK,
+          EntityType.SSIS_CONTROL_FLOW,
+          EntityType.SSIS_DATAFLOW,
+          EntityType.SSIS_PACKAGE,
+          EntityType.SSIS_CONTROL_TASK);
 
   /** A prioritized list of source filter types used to generate quick filters */
   public static final List<String> PRIORITIZED_SOURCE_ENTITY_TYPES =
@@ -119,7 +117,11 @@ public class SearchUtils {
               ML_MODEL_GROUP_ENTITY_NAME,
               ML_FEATURE_ENTITY_NAME,
               ML_FEATURE_TABLE_ENTITY_NAME,
-              ML_PRIMARY_KEY_ENTITY_NAME)
+              ML_PRIMARY_KEY_ENTITY_NAME,
+              SSIS_CONTROLFLOW_ENTITY_NAME,
+              SSIS_DATAFLOW_ENTITY_NAME,
+              SSIS_PACKAGE_ENTITY_NAME,
+              SSIS_CONTROLTASK_ENTITY_NAME)
           .map(String::toLowerCase)
           .collect(Collectors.toList());
 

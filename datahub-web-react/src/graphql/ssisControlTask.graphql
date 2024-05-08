@@ -1,0 +1,73 @@
+fragment ssisControlTaskFields on SsisControlTask {
+    urn
+    type
+    exists
+    lastIngested
+    flow {
+        urn
+        type
+        name
+    }
+    properties {
+        name
+        description
+        externalUrl
+        customProperties {
+            key
+            value
+        }
+    }
+    editableProperties {
+        description
+    }
+    ownership {
+        ...ownershipFields
+    }
+    globalTags {
+        ...globalTagsFields
+    }
+    institutionalMemory {
+        ...institutionalMemoryFields
+    }
+    glossaryTerms {
+        ...glossaryTerms
+    }
+    domain {
+        ...entityDomain
+    }
+    ...entityDataProduct
+    status {
+        removed
+    }
+    deprecation {
+        ...deprecationFields
+    }
+    dataPlatformInstance {
+        ...dataPlatformInstanceFields
+    }
+    browsePathV2 {
+        ...browsePathV2Fields
+    }
+}
+
+query getSsisControlTask($urn: String!) {
+    ssisControlTask(urn: $urn) {
+        ...ssisControlTaskFields
+        upstream: lineage(input: { direction: UPSTREAM, start: 0, count: 100 }) {
+            ...partialLineageResults
+        }
+        downstream: lineage(input: { direction: DOWNSTREAM, start: 0, count: 100 }) {
+            ...partialLineageResults
+        }
+
+        autoRenderAspects: aspects(input: { autoRenderOnly: true }) {
+            ...autoRenderAspectFields
+        }
+    }
+}
+
+mutation updateSsisControlTask($urn: String!, $input: SsisControlTaskUpdateInput!) {
+    updateSsisControlTask(urn: $urn, input: $input) {
+        urn
+    }
+}

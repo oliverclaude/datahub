@@ -680,6 +680,21 @@ public class PoliciesConfig {
           .addAll(ENTITY_RESOURCE_PRIVILEGES)
           .add(ALL_RESOURCE_PRIVILEGES)
           .build();
+  public static final ResourcePrivileges SSISPACKAGE_PRIVILEGES =
+      ResourcePrivileges.of(
+          "ssisPackage",
+          "Ssis Package",
+          "Ssis Packages created on DataHub",
+          ImmutableList.of(
+              VIEW_ENTITY_PAGE_PRIVILEGE,
+              EDIT_ENTITY_OWNERS_PRIVILEGE,
+              EDIT_ENTITY_DOCS_PRIVILEGE,
+              EDIT_ENTITY_DOC_LINKS_PRIVILEGE,
+              EDIT_ENTITY_PRIVILEGE,
+              DELETE_ENTITY_PRIVILEGE,
+              EDIT_ENTITY_TAGS_PRIVILEGE,
+              EDIT_ENTITY_GLOSSARY_TERMS_PRIVILEGE,
+              EDIT_ENTITY_DOMAINS_PRIVILEGE));
 
   /*
    * This is an attempt to piece together and organize CRUD-like semantics from the various existing

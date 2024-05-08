@@ -1,0 +1,101 @@
+fragment ssisPackageFields on SsisPackage {
+    urn
+    type
+    exists
+    lastIngested
+    orchestrator
+    name
+    cluster
+    platform {
+        ...platformFields
+    }
+    properties {
+        name
+        description
+        project
+        externalUrl
+        customProperties {
+            key
+            value
+        }
+    }
+    editableProperties {
+        description
+    }
+    ownership {
+        ...ownershipFields
+    }
+    globalTags {
+        ...globalTagsFields
+    }
+    institutionalMemory {
+        ...institutionalMemoryFields
+    }
+    glossaryTerms {
+        ...glossaryTerms
+    }
+    domain {
+        ...entityDomain
+    }
+
+    status {
+        removed
+    }
+    deprecation {
+        ...deprecationFields
+    }
+    dataPlatformInstance {
+        ...dataPlatformInstanceFields
+    }
+    browsePathV2 {
+        ...browsePathV2Fields
+    }
+}
+
+
+
+query getSsisPackage($urn: String!) {
+    ssisPackage(urn: $urn) {
+        ...ssisPackageFields
+        upstream: lineage(input: { direction: UPSTREAM, start: 0, count: 100 }) {
+            ...partialLineageResults
+        }
+        downstream: lineage(input: { direction: DOWNSTREAM, start: 0, count: 100 }) {
+            ...partialLineageResults
+        }
+        childControlFlow: relationships(input: { types: ["CFIsPartOf"], direction: INCOMING, start: 0, count: 100 }) {
+            start
+            count
+            total
+            relationships {
+                entity {
+                    ...ssisControlFlowFields
+                }
+
+            }
+        }
+        childDataFlow: relationships(input: { types: ["DFIsPartOf"], direction: INCOMING, start: 0, count: 100 }) {
+            start
+            count
+            total
+            relationships {
+                entity {
+                    ...ssisDataFlowFields
+                }
+
+            }
+        }
+        autoRenderAspects: aspects(input: { autoRenderOnly: true }) {
+            ...autoRenderAspectFields
+        }
+    }
+}
+
+
+
+mutation updateSsisPackage($urn: String!, $input: SsisPackageUpdateInput!) {
+    updateSsisPackage(urn: $urn, input: $input) {
+        urn
+    }
+}
+

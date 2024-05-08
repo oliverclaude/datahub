@@ -1,0 +1,88 @@
+namespace com.linkedin.ssis
+
+import com.linkedin.common.DatasetUrn
+import com.linkedin.common.Urn
+import com.linkedin.dataset.FineGrainedLineage
+import com.linkedin.common.Edge
+
+/**
+ * Information about the inputs and outputs of a Data processing job
+ */
+@Aspect = {
+  "name": "ssisControlTaskInputOutput"
+}
+record SsisControlTaskInputOutput {
+
+
+  /**
+   * Input datasets consumed by the data job during processing
+   */
+  @Relationship = {
+    "/*": {
+      "name": "Consumes",
+      "entityTypes": [ "dataset" ],
+      "isLineage": true
+    }
+  }
+  @Searchable = {
+    "/*": {
+      "fieldName": "inputDatasets",
+      "fieldType": "URN",
+      "numValuesFieldName": "numInputDatasets",
+      "queryByDefault": false
+    }
+  }
+  inputDatasets: optional array[DatasetUrn]
+
+  /**
+   * Output datasets produced by the data job during processing
+   */
+  @Relationship = {
+    "/*": {
+      "name": "Produces",
+      "entityTypes": [ "dataset" ],
+      "isUpstream": false,
+      "isLineage": true
+    }
+  }
+  @Searchable = {
+    "/*": {
+      "fieldName": "outputDatasets",
+      "fieldType": "URN",
+      "numValuesFieldName": "numOutputDatasets",
+      "queryByDefault": false
+    }
+  }
+  outputDatasets: optional array[DatasetUrn]
+
+  /**
+   * Input control tasks that this control task depends on
+   */
+  @Relationship = {
+    "/*": {
+      "name": "DownstreamOf",
+      "entityTypes": [ "ssisControlTask" ],
+      "isLineage": true
+    }
+  }
+  @Searchable = {
+    "/*": {
+      "fieldName": "inputControlTasks",
+      "fieldType": "URN",
+      "numValuesFieldName": "numInputControlTasks",
+      "queryByDefault": false
+    }
+  }
+  inputControlTasks: optional array[Urn]
+
+  /**
+   * Input control tasks that contains this control task
+   */
+  @Relationship = {
+    "name": "Contains",
+    "entityTypes": [ "ssisControlTask" ],
+    "isLineage": true
+  }
+  containingControlTask: optional Urn
+
+}

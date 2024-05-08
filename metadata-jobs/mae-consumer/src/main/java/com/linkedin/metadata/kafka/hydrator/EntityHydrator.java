@@ -31,6 +31,10 @@ public class EntityHydrator {
   private final DataFlowHydrator _dataFlowHydrator = new DataFlowHydrator();
   private final DataJobHydrator _dataJobHydrator = new DataJobHydrator();
   private final DatasetHydrator _datasetHydrator = new DatasetHydrator();
+  private final SsisControlFlowHydrator _ssisControlFlowHydrator = new SsisControlFlowHydrator();
+  private final SsisControlTaskHydrator _ssisControlTaskHydrator = new SsisControlTaskHydrator();
+  private final SsisPackageHydrator _ssisPackageHydrator = new SsisPackageHydrator();
+  private final SsisDataFlowHydrator _ssisDataflowHydrator = new SsisDataFlowHydrator();
 
   public Optional<ObjectNode> getHydratedEntity(String urn) {
     final ObjectNode document = JsonNodeFactory.instance.objectNode();
@@ -46,7 +50,8 @@ public class EntityHydrator {
     EntityResponse entityResponse;
     try {
       Set<String> aspectNames =
-          Optional.ofNullable(_entityRegistry.getEntitySpecs().get(urnObj.getEntityType()))
+          Optional.ofNullable(
+                  _entityRegistry.getEntitySpecs().get(urnObj.getEntityType().toLowerCase()))
               .map(
                   spec ->
                       spec.getAspectSpecs().stream()
@@ -84,6 +89,18 @@ public class EntityHydrator {
         break;
       case DATASET_ENTITY_NAME:
         _datasetHydrator.hydrateFromEntityResponse(document, entityResponse);
+        break;
+      case SSIS_CONTROLFLOW_ENTITY_NAME:
+        _ssisControlFlowHydrator.hydrateFromEntityResponse(document, entityResponse);
+        break;
+      case SSIS_CONTROLTASK_ENTITY_NAME:
+        _ssisControlTaskHydrator.hydrateFromEntityResponse(document, entityResponse);
+        break;
+      case SSIS_PACKAGE_ENTITY_NAME:
+        _ssisPackageHydrator.hydrateFromEntityResponse(document, entityResponse);
+        break;
+      case SSIS_DATAFLOW_ENTITY_NAME:
+        _ssisDataflowHydrator.hydrateFromEntityResponse(document, entityResponse);
         break;
       default:
         log.error(

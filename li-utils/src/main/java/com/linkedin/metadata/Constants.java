@@ -379,6 +379,35 @@ public class Constants {
   public static final String DATA_PROCESS_INSTANCE_RELATIONSHIPS_ASPECT_NAME =
       "dataProcessInstanceRelationships";
 
+  public static final String SSIS_PACKAGE_ENTITY_NAME = "ssisPackage";
+
+  public static final String SSISPACKAGE_KEY_ASPECT_NAME = "ssisPackageKey";
+  public static final String EDITABLE_SSISPACKAGE_PROPERTIES_ASPECT_NAME =
+      "editableSsisPackageProperties";
+  public static final String SSISPACKAGE_INFO_ASPECT_NAME = "ssisPackageInfo";
+
+  public static final String SSIS_DATAFLOW_ENTITY_NAME = "ssisDataFlow";
+  public static final String SSIS_DATAFLOW_KEY_ASPECT_NAME = "ssisDataFlowKey";
+  public static final String EDITABLE_SSIS_DATAFLOW_PROPERTIES_ASPECT_NAME =
+      "editableSsisDataFlowProperties";
+  public static final String SSIS_DATAFLOW_INFO_ASPECT_NAME = "ssisDataFlowInfo";
+
+  public static final String SSIS_DATAFLOW_INPUT_OUTPUT = "ssisDatFlowInputOutput";
+  public static final String SSIS_CONTROLTASK_ENTITY_NAME = "ssisControlTask";
+  public static final String SSIS_CONTROLTASK_INPUT_OUTPUT_ASPECT_NAME =
+      "ssisControlTaskInputOutput";
+  public static final String SSIS_CONTROLTASK_KEY_ASPECT_NAME = "ssisControlTaskKey";
+  public static final String EDITABLE_SSIS_CONTROLTASK_PROPERTIES_ASPECT_NAME =
+      "editableSsisControlTaskProperties";
+
+  public static final String SSIS_CONTROLFLOW_ENTITY_NAME = "ssisControlFlow";
+  public static final String SSIS_CONTROLTASK_INFO_ASPECT_NAME = "ssisControlTaskInfo";
+  public static final String SSIS_CONTROLFLOW_KEY_ASPECT_NAME = "ssisControlFlowKey";
+  public static final String EDITABLE_SSIS_CONTROLFLOW_PROPERTIES_ASPECT_NAME =
+      "editableSsisControlFlowProperties";
+
+  public static final String SSIS_CONTROLFLOW_INFO_ASPECT_NAME = "ssisControlFlowInfo";
+
   // Posts
   public static final String POST_INFO_ASPECT_NAME = "postInfo";
   public static final String LAST_MODIFIED_FIELD_NAME = "lastModified";

@@ -175,7 +175,7 @@ public class AggregateAcrossEntitiesResolverTest {
 
     EntityClient mockClient =
         initMockEntityClient(
-            ImmutableList.of(Constants.DATASET_ENTITY_NAME, Constants.DASHBOARD_ENTITY_NAME),
+            ImmutableList.of(Constants.DASHBOARD_ENTITY_NAME, Constants.DATASET_ENTITY_NAME),
             "",
             viewFilter,
             0,
@@ -224,15 +224,16 @@ public class AggregateAcrossEntitiesResolverTest {
 
     FormService mockFormService = Mockito.mock(FormService.class);
     ViewService mockService = initMockViewService(TEST_VIEW_URN, info);
-
+    List<String> types =
+        ImmutableList.of(Constants.DATASET_ENTITY_NAME, Constants.DASHBOARD_ENTITY_NAME);
     EntityClient mockClient =
         initMockEntityClient(
-            ImmutableList.of(Constants.DATASET_ENTITY_NAME, Constants.DASHBOARD_ENTITY_NAME),
+            types,
             "",
             viewFilter,
             0,
             0,
-            null,
+            ImmutableList.of(),
             new SearchResult()
                 .setEntities(new SearchEntityArray())
                 .setNumEntities(0)
@@ -256,9 +257,7 @@ public class AggregateAcrossEntitiesResolverTest {
 
     verifyMockEntityClient(
         mockClient,
-        ImmutableList.of(
-            Constants.DATASET_ENTITY_NAME,
-            Constants.DASHBOARD_ENTITY_NAME), // Verify that view entity types were honored.
+        types, // Verify that view entity types were honored.
         "",
         viewFilter, // Verify that merged filters were used.
         0,
@@ -395,6 +394,7 @@ public class AggregateAcrossEntitiesResolverTest {
             client.searchAcrossEntities(
                 any(),
                 Mockito.eq(entityTypes),
+		Mockito.any(),
                 Mockito.eq(query),
                 Mockito.eq(filter),
                 Mockito.eq(start),
@@ -418,6 +418,7 @@ public class AggregateAcrossEntitiesResolverTest {
         .searchAcrossEntities(
             any(),
             Mockito.eq(entityTypes),
+	    Mockito.anyList(),
             Mockito.eq(query),
             Mockito.eq(filter),
             Mockito.eq(start),

@@ -6,8 +6,8 @@ OUTDIR=./src/datahub/metadata
 # Note: this assumes that datahub has already been built with `./gradlew build`.
 DATAHUB_ROOT=..
 
-SCHEMAS_PDL="$DATAHUB_ROOT/metadata-models/src/main/pegasus/com/linkedin"
-SCHEMAS_AVSC="$DATAHUB_ROOT/metadata-events/mxe-schemas/src/renamed/avro/com/linkedin"
+SCHEMAS_PDL="$DATAHUB_ROOT/metadata-models/src/main/pegasus/com"
+SCHEMAS_AVSC="$DATAHUB_ROOT/metadata-events/mxe-schemas/src/renamed/avro/com"
 ENTITY_REGISTRY="$DATAHUB_ROOT/metadata-models/src/main/resources/entity-registry.yml"
 
 rm -r $OUTDIR 2>/dev/null || true

@@ -98,6 +98,66 @@ fragment lineageNodeProperties on EntityWithRelationships {
             ...entityHealth
         }
     }
+    ... on SsisControlTask {
+
+
+        ownership {
+            ...ownershipFields
+        }
+        properties {
+            name
+            description
+            externalUrl
+        }
+        globalTags {
+            ...globalTagsFields
+        }
+        glossaryTerms {
+            ...glossaryTerms
+        }
+        editableProperties {
+            description
+        }
+        domain {
+            ...entityDomain
+        }
+
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+
+    }
+    ... on SsisDataFlow {
+
+        name
+
+        ownership {
+            ...ownershipFields
+        }
+        properties {
+            name
+            description
+            externalUrl
+        }
+        globalTags {
+            ...globalTagsFields
+        }
+        glossaryTerms {
+            ...glossaryTerms
+        }
+        editableProperties {
+            description
+        }
+        domain {
+            ...entityDomain
+        }
+
+
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+
+    }
     ... on Dashboard {
         urn
         type

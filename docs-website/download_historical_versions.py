@@ -2,13 +2,18 @@ import json
 import os
 import tarfile
 import time
+import ssl
 import urllib.request
 
 repo_url = "https://api.github.com/repos/datahub-project/static-assets"
 
 
 def download_file(url, destination):
-    with urllib.request.urlopen(url) as response:
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
+    with urllib.request.urlopen(url, context=ctx) as response:
         with open(destination, "wb") as f:
             while True:
                 chunk = response.read(8192)

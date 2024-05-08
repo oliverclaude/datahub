@@ -23,91 +23,7 @@ import com.linkedin.datahub.graphql.analytics.resolver.GetMetadataAnalyticsResol
 import com.linkedin.datahub.graphql.analytics.resolver.IsAnalyticsEnabledResolver;
 import com.linkedin.datahub.graphql.analytics.service.AnalyticsService;
 import com.linkedin.datahub.graphql.featureflags.FeatureFlags;
-import com.linkedin.datahub.graphql.generated.AccessToken;
-import com.linkedin.datahub.graphql.generated.AccessTokenMetadata;
-import com.linkedin.datahub.graphql.generated.ActorFilter;
-import com.linkedin.datahub.graphql.generated.AggregationMetadata;
-import com.linkedin.datahub.graphql.generated.Assertion;
-import com.linkedin.datahub.graphql.generated.AutoCompleteResultForEntity;
-import com.linkedin.datahub.graphql.generated.AutoCompleteResults;
-import com.linkedin.datahub.graphql.generated.BrowsePathEntry;
-import com.linkedin.datahub.graphql.generated.BrowseResultGroupV2;
-import com.linkedin.datahub.graphql.generated.BrowseResults;
-import com.linkedin.datahub.graphql.generated.Chart;
-import com.linkedin.datahub.graphql.generated.ChartInfo;
-import com.linkedin.datahub.graphql.generated.Container;
-import com.linkedin.datahub.graphql.generated.CorpGroup;
-import com.linkedin.datahub.graphql.generated.CorpGroupInfo;
-import com.linkedin.datahub.graphql.generated.CorpUser;
-import com.linkedin.datahub.graphql.generated.CorpUserInfo;
-import com.linkedin.datahub.graphql.generated.CorpUserViewsSettings;
-import com.linkedin.datahub.graphql.generated.Dashboard;
-import com.linkedin.datahub.graphql.generated.DashboardInfo;
-import com.linkedin.datahub.graphql.generated.DashboardStatsSummary;
-import com.linkedin.datahub.graphql.generated.DashboardUserUsageCounts;
-import com.linkedin.datahub.graphql.generated.DataFlow;
-import com.linkedin.datahub.graphql.generated.DataHubView;
-import com.linkedin.datahub.graphql.generated.DataJob;
-import com.linkedin.datahub.graphql.generated.DataJobInputOutput;
-import com.linkedin.datahub.graphql.generated.DataPlatformInstance;
-import com.linkedin.datahub.graphql.generated.Dataset;
-import com.linkedin.datahub.graphql.generated.DatasetStatsSummary;
-import com.linkedin.datahub.graphql.generated.Domain;
-import com.linkedin.datahub.graphql.generated.ERModelRelationshipProperties;
-import com.linkedin.datahub.graphql.generated.EntityPath;
-import com.linkedin.datahub.graphql.generated.EntityRelationship;
-import com.linkedin.datahub.graphql.generated.EntityRelationshipLegacy;
-import com.linkedin.datahub.graphql.generated.ForeignKeyConstraint;
-import com.linkedin.datahub.graphql.generated.FormActorAssignment;
-import com.linkedin.datahub.graphql.generated.GetRootGlossaryNodesResult;
-import com.linkedin.datahub.graphql.generated.GetRootGlossaryTermsResult;
-import com.linkedin.datahub.graphql.generated.GlossaryNode;
-import com.linkedin.datahub.graphql.generated.GlossaryTerm;
-import com.linkedin.datahub.graphql.generated.GlossaryTermAssociation;
-import com.linkedin.datahub.graphql.generated.IncidentSource;
-import com.linkedin.datahub.graphql.generated.IngestionSource;
-import com.linkedin.datahub.graphql.generated.InstitutionalMemoryMetadata;
-import com.linkedin.datahub.graphql.generated.LineageRelationship;
-import com.linkedin.datahub.graphql.generated.ListAccessTokenResult;
-import com.linkedin.datahub.graphql.generated.ListDomainsResult;
-import com.linkedin.datahub.graphql.generated.ListGroupsResult;
-import com.linkedin.datahub.graphql.generated.ListOwnershipTypesResult;
-import com.linkedin.datahub.graphql.generated.ListQueriesResult;
-import com.linkedin.datahub.graphql.generated.ListTestsResult;
-import com.linkedin.datahub.graphql.generated.ListViewsResult;
-import com.linkedin.datahub.graphql.generated.MLFeature;
-import com.linkedin.datahub.graphql.generated.MLFeatureProperties;
-import com.linkedin.datahub.graphql.generated.MLFeatureTable;
-import com.linkedin.datahub.graphql.generated.MLFeatureTableProperties;
-import com.linkedin.datahub.graphql.generated.MLModel;
-import com.linkedin.datahub.graphql.generated.MLModelGroup;
-import com.linkedin.datahub.graphql.generated.MLModelProperties;
-import com.linkedin.datahub.graphql.generated.MLPrimaryKey;
-import com.linkedin.datahub.graphql.generated.MLPrimaryKeyProperties;
-import com.linkedin.datahub.graphql.generated.MatchedField;
-import com.linkedin.datahub.graphql.generated.Notebook;
-import com.linkedin.datahub.graphql.generated.Owner;
-import com.linkedin.datahub.graphql.generated.OwnershipTypeEntity;
-import com.linkedin.datahub.graphql.generated.ParentDomainsResult;
-import com.linkedin.datahub.graphql.generated.PolicyMatchCriterionValue;
-import com.linkedin.datahub.graphql.generated.QueryEntity;
-import com.linkedin.datahub.graphql.generated.QueryProperties;
-import com.linkedin.datahub.graphql.generated.QuerySubject;
-import com.linkedin.datahub.graphql.generated.QuickFilter;
-import com.linkedin.datahub.graphql.generated.RecommendationContent;
-import com.linkedin.datahub.graphql.generated.ResolvedAuditStamp;
-import com.linkedin.datahub.graphql.generated.SchemaField;
-import com.linkedin.datahub.graphql.generated.SchemaFieldEntity;
-import com.linkedin.datahub.graphql.generated.SearchAcrossLineageResult;
-import com.linkedin.datahub.graphql.generated.SearchResult;
-import com.linkedin.datahub.graphql.generated.SiblingProperties;
-import com.linkedin.datahub.graphql.generated.StructuredPropertiesEntry;
-import com.linkedin.datahub.graphql.generated.StructuredPropertyDefinition;
-import com.linkedin.datahub.graphql.generated.StructuredPropertyParams;
-import com.linkedin.datahub.graphql.generated.Test;
-import com.linkedin.datahub.graphql.generated.TestResult;
-import com.linkedin.datahub.graphql.generated.TypeQualifier;
-import com.linkedin.datahub.graphql.generated.UserUsageCounts;
+import com.linkedin.datahub.graphql.generated.*;
 import com.linkedin.datahub.graphql.resolvers.MeResolver;
 import com.linkedin.datahub.graphql.resolvers.assertion.AssertionRunEventResolver;
 import com.linkedin.datahub.graphql.resolvers.assertion.DeleteAssertionResolver;
@@ -330,6 +246,9 @@ import com.linkedin.datahub.graphql.types.restricted.RestrictedType;
 import com.linkedin.datahub.graphql.types.role.DataHubRoleType;
 import com.linkedin.datahub.graphql.types.rolemetadata.RoleType;
 import com.linkedin.datahub.graphql.types.schemafield.SchemaFieldType;
+import com.linkedin.datahub.graphql.types.ssis.SsisControlFlowType;
+import com.linkedin.datahub.graphql.types.ssis.SsisDataFlowType;
+import com.linkedin.datahub.graphql.types.ssis.SsisPackageType;
 import com.linkedin.datahub.graphql.types.structuredproperty.StructuredPropertyType;
 import com.linkedin.datahub.graphql.types.tag.TagType;
 import com.linkedin.datahub.graphql.types.test.TestType;
@@ -478,6 +397,10 @@ public class GmsGraphQLEngine {
   private final DataTypeType dataTypeType;
   private final EntityTypeType entityTypeType;
   private final FormType formType;
+  private final SsisDataFlowType ssisDataFlowType;
+  private final com.linkedin.datahub.graphql.types.ssis.SsisControlTaskType ssisControlTaskType;
+  private final SsisControlFlowType ssisControlFlowType;
+  private final SsisPackageType ssisPackageType;
   private final IncidentType incidentType;
   private final RestrictedType restrictedType;
 
@@ -590,6 +513,10 @@ public class GmsGraphQLEngine {
     this.dataTypeType = new DataTypeType(entityClient);
     this.entityTypeType = new EntityTypeType(entityClient);
     this.formType = new FormType(entityClient);
+    this.ssisDataFlowType = new SsisDataFlowType(entityClient);
+    this.ssisControlTaskType = new com.linkedin.datahub.graphql.types.ssis.SsisControlTaskType(entityClient);
+    this.ssisControlFlowType = new SsisControlFlowType(entityClient);
+    this.ssisPackageType = new SsisPackageType(entityClient);
     this.incidentType = new IncidentType(entityClient);
     this.restrictedType = new RestrictedType(entityClient, restrictedService);
 
@@ -636,6 +563,10 @@ public class GmsGraphQLEngine {
             dataTypeType,
             entityTypeType,
             formType,
+	    ssisPackageType,
+	    ssisControlFlowType,
+	    ssisControlTaskType,
+	    ssisDataFlowType,
             incidentType,
             restrictedType);
     this.loadableTypes = new ArrayList<>(entityTypes);
@@ -699,6 +630,10 @@ public class GmsGraphQLEngine {
     configureGlossaryTermAssociationResolver(builder);
     configureDataJobResolvers(builder);
     configureDataFlowResolvers(builder);
+    configureSsisPackageResolvers(builder);
+    configureSsisControlFlowResolvers(builder);
+    configureSsisControlTaskResolvers(builder);
+    configureSsisDataFlowResolvers(builder);
     configureMLFeatureTableResolvers(builder);
     configureGlossaryRelationshipResolvers(builder);
     configureIngestionSourceResolvers(builder);
@@ -949,6 +884,10 @@ public class GmsGraphQLEngine {
                 .dataFetcher("tag", getResolver(tagType))
                 .dataFetcher("dataFlow", getResolver(dataFlowType))
                 .dataFetcher("dataJob", getResolver(dataJobType))
+                .dataFetcher("ssisPackage", getResolver(ssisPackageType))
+                .dataFetcher("ssisControlFlow", getResolver(ssisControlFlowType))
+                .dataFetcher("ssisControlTask", getResolver(ssisControlTaskType))
+                .dataFetcher("ssisDataFlow", getResolver(ssisDataFlowType))
                 .dataFetcher("glossaryTerm", getResolver(glossaryTermType))
                 .dataFetcher("glossaryNode", getResolver(glossaryNodeType))
                 .dataFetcher("domain", getResolver((domainType)))
@@ -2289,6 +2228,107 @@ public class GmsGraphQLEngine {
                         graphClient,
                         timeseriesAspectService,
                         new EntityHealthResolver.Config(false, true))));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.SsisPackage} type.
+   */
+  private void configureSsisPackageResolvers(final RuntimeWiring.Builder builder) {
+    builder.type(
+        "SsisPackage",
+        typeWiring ->
+            typeWiring
+                .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
+                .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.ssisPackageType))
+                .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService))
+                .dataFetcher(
+                    "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                .dataFetcher(
+                    "platform",
+                    new LoadableTypeResolver<>(
+                        dataPlatformType,
+                        (env) -> ((SsisPackage) env.getSource()).getPlatform().getUrn()))
+                .dataFetcher("exists", new EntityExistsResolver(entityService))
+                .dataFetcher(
+                    "dataPlatformInstance",
+                    new LoadableTypeResolver<>(
+                        dataPlatformInstanceType,
+                        (env) -> {
+                          final SsisPackage ssisPackage = env.getSource();
+                          return ssisPackage.getDataPlatformInstance() != null
+                              ? ssisPackage.getDataPlatformInstance().getUrn()
+                              : null;
+                        })));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.SsisControlFlow} type.
+   */
+  private void configureSsisControlFlowResolvers(final RuntimeWiring.Builder builder) {
+    builder.type(
+        "SsisControlFlow",
+        typeWiring ->
+            typeWiring
+                .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
+                .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.ssisControlFlowType))
+                .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService))
+                .dataFetcher(
+                    "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                .dataFetcher(
+                    "ssisPackage",
+                    new LoadableTypeResolver<>(
+                        ssisPackageType,
+                        (env) -> ((SsisControlFlow) env.getSource()).getSsisPackage().getUrn()))
+                .dataFetcher("privileges", new EntityPrivilegesResolver(entityClient))
+                .dataFetcher("exists", new EntityExistsResolver(entityService)));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.SsisControlTask} type.
+   */
+  private void configureSsisControlTaskResolvers(final RuntimeWiring.Builder builder) {
+    builder.type(
+        "SsisControlTask",
+        typeWiring ->
+            typeWiring
+                .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
+                .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.ssisControlFlowType))
+                .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService))
+                .dataFetcher(
+                    "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                .dataFetcher(
+                    "flow",
+                    new LoadableTypeResolver<>(
+                        ssisControlFlowType,
+                        (env) -> ((SsisControlTask) env.getSource()).getFlow().getUrn()))
+                .dataFetcher("privileges", new EntityPrivilegesResolver(entityClient))
+                .dataFetcher("exists", new EntityExistsResolver(entityService)));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.SsisDataFlow} type.
+   */
+  private void configureSsisDataFlowResolvers(final RuntimeWiring.Builder builder) {
+    builder.type(
+        "SsisDataFlow",
+        typeWiring ->
+            typeWiring
+                .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
+                .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.ssisDataFlowType))
+                .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService))
+                .dataFetcher(
+                    "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                .dataFetcher(
+                    "ssisPackage",
+                    new LoadableTypeResolver<>(
+                        ssisPackageType,
+                        (env) -> ((SsisDataFlow) env.getSource()).getSsisPackage().getUrn()))
+                .dataFetcher("privileges", new EntityPrivilegesResolver(entityClient))
+                .dataFetcher("exists", new EntityExistsResolver(entityService)));
   }
 
   /**

@@ -4,41 +4,7 @@ import static com.linkedin.metadata.Constants.*;
 
 import com.linkedin.common.urn.Urn;
 import com.linkedin.datahub.graphql.QueryContext;
-import com.linkedin.datahub.graphql.generated.Assertion;
-import com.linkedin.datahub.graphql.generated.Chart;
-import com.linkedin.datahub.graphql.generated.Container;
-import com.linkedin.datahub.graphql.generated.CorpGroup;
-import com.linkedin.datahub.graphql.generated.CorpUser;
-import com.linkedin.datahub.graphql.generated.Dashboard;
-import com.linkedin.datahub.graphql.generated.DataFlow;
-import com.linkedin.datahub.graphql.generated.DataHubPolicy;
-import com.linkedin.datahub.graphql.generated.DataHubRole;
-import com.linkedin.datahub.graphql.generated.DataHubView;
-import com.linkedin.datahub.graphql.generated.DataJob;
-import com.linkedin.datahub.graphql.generated.DataPlatform;
-import com.linkedin.datahub.graphql.generated.DataPlatformInstance;
-import com.linkedin.datahub.graphql.generated.DataProduct;
-import com.linkedin.datahub.graphql.generated.Dataset;
-import com.linkedin.datahub.graphql.generated.Domain;
-import com.linkedin.datahub.graphql.generated.ERModelRelationship;
-import com.linkedin.datahub.graphql.generated.Entity;
-import com.linkedin.datahub.graphql.generated.EntityType;
-import com.linkedin.datahub.graphql.generated.GlossaryNode;
-import com.linkedin.datahub.graphql.generated.GlossaryTerm;
-import com.linkedin.datahub.graphql.generated.MLFeature;
-import com.linkedin.datahub.graphql.generated.MLFeatureTable;
-import com.linkedin.datahub.graphql.generated.MLModel;
-import com.linkedin.datahub.graphql.generated.MLModelGroup;
-import com.linkedin.datahub.graphql.generated.MLPrimaryKey;
-import com.linkedin.datahub.graphql.generated.Notebook;
-import com.linkedin.datahub.graphql.generated.OwnershipTypeEntity;
-import com.linkedin.datahub.graphql.generated.QueryEntity;
-import com.linkedin.datahub.graphql.generated.Restricted;
-import com.linkedin.datahub.graphql.generated.Role;
-import com.linkedin.datahub.graphql.generated.SchemaFieldEntity;
-import com.linkedin.datahub.graphql.generated.StructuredPropertyEntity;
-import com.linkedin.datahub.graphql.generated.Tag;
-import com.linkedin.datahub.graphql.generated.Test;
+import com.linkedin.datahub.graphql.generated.*;
 import com.linkedin.datahub.graphql.types.mappers.ModelMapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -198,6 +164,26 @@ public class UrnToEntityMapper implements ModelMapper<com.linkedin.common.urn.Ur
       partialEntity = new DataProduct();
       ((DataProduct) partialEntity).setUrn(input.toString());
       ((DataProduct) partialEntity).setType(EntityType.DATA_PRODUCT);
+    }
+    if (input.getEntityType().equals(SSIS_CONTROLFLOW_ENTITY_NAME)) {
+      partialEntity = new SsisControlFlow();
+      ((SsisControlFlow) partialEntity).setUrn(input.toString());
+      ((SsisControlFlow) partialEntity).setType(EntityType.SSIS_CONTROL_FLOW);
+    }
+    if (input.getEntityType().equals(SSIS_DATAFLOW_ENTITY_NAME)) {
+      partialEntity = new SsisDataFlow();
+      ((SsisDataFlow) partialEntity).setUrn(input.toString());
+      ((SsisDataFlow) partialEntity).setType(EntityType.SSIS_DATAFLOW);
+    }
+    if (input.getEntityType().equals(SSIS_CONTROLTASK_ENTITY_NAME)) {
+      partialEntity = new SsisControlTask();
+      ((SsisControlTask) partialEntity).setUrn(input.toString());
+      ((SsisControlTask) partialEntity).setType(EntityType.SSIS_CONTROL_TASK);
+    }
+    if (input.getEntityType().equals(SSIS_PACKAGE_ENTITY_NAME)) {
+      partialEntity = new SsisPackage();
+      ((SsisPackage) partialEntity).setUrn(input.toString());
+      ((SsisPackage) partialEntity).setType(EntityType.SSIS_PACKAGE);
     }
     if (input.getEntityType().equals(OWNERSHIP_TYPE_ENTITY_NAME)) {
       partialEntity = new OwnershipTypeEntity();

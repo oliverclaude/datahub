@@ -1,0 +1,80 @@
+fragment ssisDataFlowFields on SsisDataFlow {
+    urn
+    type
+    exists
+    lastIngested
+    name
+
+    ssisPackage {
+        urn
+        type
+        orchestrator
+        platform {
+            ...platformFields
+        }
+    }
+
+    properties {
+        name
+        description
+        externalUrl
+        customProperties {
+            key
+            value
+        }
+    }
+    editableProperties {
+        description
+    }
+    ownership {
+        ...ownershipFields
+    }
+    globalTags {
+        ...globalTagsFields
+    }
+    institutionalMemory {
+        ...institutionalMemoryFields
+    }
+    glossaryTerms {
+        ...glossaryTerms
+    }
+    domain {
+        ...entityDomain
+    }
+    status {
+        removed
+    }
+    deprecation {
+        ...deprecationFields
+    }
+    dataPlatformInstance {
+        ...dataPlatformInstanceFields
+    }
+    browsePathV2 {
+        ...browsePathV2Fields
+    }
+}
+
+query getSsisDataFlow($urn: String!) {
+    ssisDataFlow(urn: $urn) {
+        ...ssisDataFlowFields
+        upstream: lineage(input: { direction: UPSTREAM, start: 0, count: 100 }) {
+            ...partialLineageResults
+        }
+        downstream: lineage(input: { direction: DOWNSTREAM, start: 0, count: 100 }) {
+            ...partialLineageResults
+        }
+
+        autoRenderAspects: aspects(input: { autoRenderOnly: true }) {
+            ...autoRenderAspectFields
+        }
+    }
+}
+
+
+mutation updateSsisDataFlow($urn: String!, $input: SsisDataFlowUpdateInput!) {
+    updateSsisDataFlow(urn: $urn, input: $input) {
+        urn
+    }
+}
+

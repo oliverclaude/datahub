@@ -21,6 +21,10 @@ import { DataProductEntity } from './entity/dataProduct/DataProductEntity';
 import { DataPlatformInstanceEntity } from './entity/dataPlatformInstance/DataPlatformInstanceEntity';
 import { ERModelRelationshipEntity } from './entity/ermodelrelationships/ERModelRelationshipEntity'
 import { RoleEntity } from './entity/Access/RoleEntity';
+import {SsisPackageEntity} from "./entity/ssisPackage/SsisPackageEntity";
+import {SsisControlTaskEntity} from "./entity/ssisControlTask/SsisControlTaskEntity";
+import {SsisControlFlowEntity} from "./entity/ssisControlFlow/SsisControlFlowEntity";
+import {SsisDataFlowEntity} from "./entity/ssisDataFlow/SsisDataFlowEntity";
 import { RestrictedEntity } from './entity/restricted/RestrictedEntity';
 
 export default function buildEntityRegistry() {
@@ -48,5 +52,9 @@ export default function buildEntityRegistry() {
     registry.register(new DataPlatformInstanceEntity());
     registry.register(new ERModelRelationshipEntity())
     registry.register(new RestrictedEntity());
+    registry.register(new SsisPackageEntity());
+    registry.register(new SsisControlTaskEntity());
+    registry.register(new SsisControlFlowEntity());
+    registry.register(new SsisDataFlowEntity());
     return registry;
 }

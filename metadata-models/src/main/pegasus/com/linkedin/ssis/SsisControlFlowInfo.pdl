@@ -1,0 +1,77 @@
+namespace com.linkedin.ssis
+
+import com.linkedin.common.CustomProperties
+import com.linkedin.common.ExternalReference
+import com.linkedin.common.Urn
+import com.linkedin.common.TimeStamp
+import com.linkedin.domain.Domains
+import com.linkedin.common.Deprecation
+import com.linkedin.common.Ownership
+import com.linkedin.common.Status
+import com.linkedin.common.GlobalTags
+import com.linkedin.common.BrowsePaths
+import com.linkedin.common.GlossaryTerms
+import com.linkedin.common.InstitutionalMemory
+import com.linkedin.common.DataPlatformInstance
+import com.linkedin.common.BrowsePathsV2
+import com.linkedin.structured.StructuredProperties
+import com.linkedin.datajob.VersionInfo
+
+
+
+/**
+ * Information about a Data processing flow
+ */
+@Aspect = {
+  "name": "ssisControlFlowInfo"
+}
+record SsisControlFlowInfo includes
+      CustomProperties, ExternalReference{
+
+  /**
+   * Flow name
+   */
+  @Searchable = {
+    "fieldType": "WORD_GRAM",
+    "enableAutocomplete": true,
+    "boostScore": 10.0,
+    "fieldNameAliases": [ "_entityName" ]
+  }
+  name: string
+
+  /**
+   * Flow description
+   */
+  @Searchable = {
+    "fieldType": "TEXT",
+    "hasValuesFieldName": "hasDescription"
+  }
+  description: optional string
+
+  /**
+   * Optional project/namespace associated with the flow
+   */
+  @Searchable = {
+    "fieldType": "TEXT_PARTIAL",
+    "queryByDefault": false
+  }
+  project: optional string
+
+  /**
+   * SsisPackage urn that this flow is part of
+   */
+  packageUrn:  Urn
+
+  /**
+   * A timestamp documenting when the asset was created in the source Data Platform (not on DataHub)
+   */
+  @Searchable = {
+    "/time": {
+      "fieldName": "createdAt",
+      "fieldType": "DATETIME"
+    }
+  }
+  created: optional TimeStamp
+
+ 
+}

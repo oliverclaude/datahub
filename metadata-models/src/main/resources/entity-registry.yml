@@ -560,6 +560,81 @@ entities:
       - formInfo
       - dynamicFormAssignment
       - ownership
+
+  - name: ssisPackage
+    category: core
+    keyAspect: ssisPackageKey
+    aspects:
+      - domains
+      - deprecation
+      - ssisPackageInfo
+      - editableSsisPackageProperties
+      - ownership
+      - status
+      - globalTags
+      - glossaryTerms
+      - institutionalMemory
+      - dataPlatformInstance
+      - browsePaths
+      - browsePathsV2
+      - structuredProperties
+
+  - name: ssisControlFlow
+    category: core
+    keyAspect: ssisControlFlowKey
+    aspects:
+      - domains
+      - deprecation
+      - ssisControlFlowInfo
+      - editableSsisControlFlowProperties
+      - ownership
+      - status
+      - globalTags
+      - glossaryTerms
+      - institutionalMemory
+      - dataPlatformInstance
+      - browsePaths
+      - browsePathsV2
+      - structuredProperties
+
+  - name: ssisControlTask
+    category: core
+    keyAspect: ssisControlTaskKey
+    aspects:
+      - domains
+      - deprecation
+      - ssisControlTaskInfo
+      - editableSsisControlTaskProperties
+      - ssisControlTaskInputOutput
+      - ownership
+      - status
+      - globalTags
+      - glossaryTerms
+      - institutionalMemory
+      - dataPlatformInstance
+      - browsePaths
+      - browsePathsV2
+      - structuredProperties
+
+  - name: ssisDataFlow
+    category: core
+    keyAspect: ssisDataFlowKey
+    aspects:
+      - domains
+      - deprecation
+      - ssisDataFlowInfo
+      - editableSsisDataFlowProperties
+      - ssisDataFlowInputOutput
+      - ownership
+      - status
+      - globalTags
+      - glossaryTerms
+      - institutionalMemory
+      - dataPlatformInstance
+      - browsePaths
+      - browsePathsV2
+      - structuredProperties
+
 events:
 plugins:
   aspectPayloadValidators:

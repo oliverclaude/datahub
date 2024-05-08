@@ -66,7 +66,11 @@ export const EntityPage = ({ entityType }: Props) => {
         entityType === EntityType.MlfeatureTable ||
         entityType === EntityType.MlmodelGroup ||
         entityType === EntityType.GlossaryTerm ||
-        entityType === EntityType.GlossaryNode;
+        entityType === EntityType.GlossaryNode ||
+        entityType === EntityType.SsisPackage ||
+        entityType === EntityType.SsisDataflow ||
+        entityType === EntityType.SsisControlFlow ||
+        entityType === EntityType.SsisControlTask;
 
     return (
         <>

@@ -117,6 +117,61 @@ fragment autoCompleteFields on Entity {
             typeNames
         }
     }
+    ... on SsisPackage {
+        orchestrator
+        name
+        properties {
+            name
+            description
+        }
+        platform {
+            ...platformFields
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+    }
+    ... on SsisControlFlow {
+        name
+        properties {
+            name
+            description
+        }
+        ssisPackage {
+            orchestrator
+            platform {
+                ...platformFields
+            }
+            dataPlatformInstance {
+                ...dataPlatformInstanceFields
+            }
+        }
+
+
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+    }
+    ... on SsisDataFlow {
+        ssisPackage {
+            orchestrator
+            platform {
+                ...platformFields
+            }
+            dataPlatformInstance {
+                ...dataPlatformInstanceFields
+            }
+        }
+
+        name
+        properties {
+            name
+            description
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+    }
     ... on DataFlow {
         orchestrator
         properties {
@@ -664,6 +719,137 @@ fragment searchResultFields on Entity {
         health {
             ...entityHealth
         }
+    }
+    ... on SsisPackage {
+        orchestrator
+        cluster
+        name
+
+        ownership {
+            ...ownershipFields
+        }
+        properties {
+            name
+            description
+            externalUrl
+        }
+        globalTags {
+            ...globalTagsFields
+        }
+        glossaryTerms {
+            ...glossaryTerms
+        }
+        editableProperties {
+            description
+        }
+        domain {
+            ...entityDomain
+        }
+        ...entityDataProduct
+        deprecation {
+            ...deprecationFields
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+
+    }
+    ... on SsisControlFlow {
+
+        name
+        ownership {
+            ...ownershipFields
+        }
+        properties {
+            name
+            description
+            externalUrl
+        }
+        globalTags {
+            ...globalTagsFields
+        }
+        glossaryTerms {
+            ...glossaryTerms
+        }
+        editableProperties {
+            description
+        }
+        domain {
+            ...entityDomain
+        }
+        ...entityDataProduct
+        deprecation {
+            ...deprecationFields
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+
+    }
+    ... on SsisControlTask {
+
+
+        ownership {
+            ...ownershipFields
+        }
+        properties {
+            name
+            description
+            externalUrl
+        }
+        globalTags {
+            ...globalTagsFields
+        }
+        glossaryTerms {
+            ...glossaryTerms
+        }
+        editableProperties {
+            description
+        }
+        domain {
+            ...entityDomain
+        }
+        ...entityDataProduct
+        deprecation {
+            ...deprecationFields
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+
+    }
+    ... on SsisDataFlow {
+
+        name
+
+        ownership {
+            ...ownershipFields
+        }
+        properties {
+            name
+            description
+            externalUrl
+        }
+        globalTags {
+            ...globalTagsFields
+        }
+        glossaryTerms {
+            ...glossaryTerms
+        }
+        editableProperties {
+            description
+        }
+        domain {
+            ...entityDomain
+        }
+        ...entityDataProduct
+        deprecation {
+            ...deprecationFields
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+
     }
     ... on GlossaryTerm {
         name

@@ -514,7 +514,8 @@ public class GmsGraphQLEngine {
     this.entityTypeType = new EntityTypeType(entityClient);
     this.formType = new FormType(entityClient);
     this.ssisDataFlowType = new SsisDataFlowType(entityClient);
-    this.ssisControlTaskType = new com.linkedin.datahub.graphql.types.ssis.SsisControlTaskType(entityClient);
+    this.ssisControlTaskType =
+        new com.linkedin.datahub.graphql.types.ssis.SsisControlTaskType(entityClient);
     this.ssisControlFlowType = new SsisControlFlowType(entityClient);
     this.ssisPackageType = new SsisPackageType(entityClient);
     this.incidentType = new IncidentType(entityClient);
@@ -563,10 +564,10 @@ public class GmsGraphQLEngine {
             dataTypeType,
             entityTypeType,
             formType,
-	    ssisPackageType,
-	    ssisControlFlowType,
-	    ssisControlTaskType,
-	    ssisDataFlowType,
+            ssisPackageType,
+            ssisControlFlowType,
+            ssisControlTaskType,
+            ssisDataFlowType,
             incidentType,
             restrictedType);
     this.loadableTypes = new ArrayList<>(entityTypes);
@@ -2241,7 +2242,11 @@ public class GmsGraphQLEngine {
             typeWiring
                 .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
                 .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.ssisPackageType))
-                .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService))
+                /** .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService)) */
+                .dataFetcher(
+                    "lineage",
+                    new EntityLineageResultResolver(
+                        siblingGraphService, restrictedService, this.authorizationConfiguration))
                 .dataFetcher(
                     "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
                 .dataFetcher(
@@ -2273,7 +2278,11 @@ public class GmsGraphQLEngine {
             typeWiring
                 .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
                 .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.ssisControlFlowType))
-                .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService))
+                /** .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService)) */
+                .dataFetcher(
+                    "lineage",
+                    new EntityLineageResultResolver(
+                        siblingGraphService, restrictedService, this.authorizationConfiguration))
                 .dataFetcher(
                     "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
                 .dataFetcher(
@@ -2296,7 +2305,11 @@ public class GmsGraphQLEngine {
             typeWiring
                 .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
                 .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.ssisControlFlowType))
-                .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService))
+                /** .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService)) */
+                .dataFetcher(
+                    "lineage",
+                    new EntityLineageResultResolver(
+                        siblingGraphService, restrictedService, this.authorizationConfiguration))
                 .dataFetcher(
                     "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
                 .dataFetcher(
@@ -2319,7 +2332,11 @@ public class GmsGraphQLEngine {
             typeWiring
                 .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
                 .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.ssisDataFlowType))
-                .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService))
+                /** .dataFetcher("lineage", new EntityLineageResultResolver(siblingGraphService)) */
+                .dataFetcher(
+                    "lineage",
+                    new EntityLineageResultResolver(
+                        siblingGraphService, restrictedService, this.authorizationConfiguration))
                 .dataFetcher(
                     "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
                 .dataFetcher(

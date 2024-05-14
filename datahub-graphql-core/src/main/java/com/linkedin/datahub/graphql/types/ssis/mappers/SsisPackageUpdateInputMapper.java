@@ -7,6 +7,7 @@ import com.linkedin.common.GlobalTags;
 import com.linkedin.common.TagAssociationArray;
 import com.linkedin.common.urn.Urn;
 import com.linkedin.data.template.SetMode;
+import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.datahub.graphql.generated.SsisPackageUpdateInput;
 import com.linkedin.datahub.graphql.types.common.mappers.InstitutionalMemoryUpdateMapper;
 import com.linkedin.datahub.graphql.types.common.mappers.OwnershipUpdateMapper;
@@ -20,42 +21,44 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class SsisPackageUpdateInputMapper
     implements InputModelMapper<SsisPackageUpdateInput, Collection<MetadataChangeProposal>, Urn> {
   public static final SsisPackageUpdateInputMapper INSTANCE = new SsisPackageUpdateInputMapper();
 
   public static Collection<MetadataChangeProposal> map(
-      @Nonnull final SsisPackageUpdateInput ssisPackageUpdateInput, @Nonnull final Urn actor) {
-    return INSTANCE.apply(ssisPackageUpdateInput, actor);
+      @Nullable final QueryContext context,
+      @Nonnull final SsisPackageUpdateInput ssisPackageUpdateInput,
+      @Nonnull final Urn actor) {
+    return INSTANCE.apply(context, ssisPackageUpdateInput, actor);
   }
 
   @Override
   public Collection<MetadataChangeProposal> apply(
-      @Nonnull final SsisPackageUpdateInput ssisPackageUpdateInput, @Nonnull final Urn actor) {
+      @Nullable final QueryContext context,
+      @Nonnull final SsisPackageUpdateInput ssisPackageUpdateInput,
+      @Nonnull final Urn actor) {
     final Collection<MetadataChangeProposal> proposals = new ArrayList<>(3);
-    final UpdateMappingHelper updateMappingHelper = new UpdateMappingHelper(DATA_JOB_ENTITY_NAME);
-
     final AuditStamp auditStamp = new AuditStamp();
     auditStamp.setActor(actor, SetMode.IGNORE_NULL);
     auditStamp.setTime(System.currentTimeMillis());
+    final UpdateMappingHelper updateMappingHelper = new UpdateMappingHelper(DATA_JOB_ENTITY_NAME);
 
     if (ssisPackageUpdateInput.getOwnership() != null) {
       proposals.add(
           updateMappingHelper.aspectToProposal(
-              OwnershipUpdateMapper.map(ssisPackageUpdateInput.getOwnership(), actor),
+              OwnershipUpdateMapper.map(context, ssisPackageUpdateInput.getOwnership(), actor),
               OWNERSHIP_ASPECT_NAME));
     }
 
     if (ssisPackageUpdateInput.getTags() != null) {
       final GlobalTags globalTags = new GlobalTags();
-
       globalTags.setTags(
           new TagAssociationArray(
               ssisPackageUpdateInput.getTags().getTags().stream()
-                  .map(TagAssociationUpdateMapper::map)
+                  .map(element -> TagAssociationUpdateMapper.map(context, element))
                   .collect(Collectors.toList())));
-
       proposals.add(updateMappingHelper.aspectToProposal(globalTags, TAG_KEY_ASPECT_NAME));
     }
 
@@ -75,7 +78,8 @@ public class SsisPackageUpdateInputMapper
     if (ssisPackageUpdateInput.getInstitutionalMemory() != null) {
       proposals.add(
           updateMappingHelper.aspectToProposal(
-              InstitutionalMemoryUpdateMapper.map(ssisPackageUpdateInput.getInstitutionalMemory()),
+              InstitutionalMemoryUpdateMapper.map(
+                  context, ssisPackageUpdateInput.getInstitutionalMemory()),
               INSTITUTIONAL_MEMORY_ASPECT_NAME));
     }
 

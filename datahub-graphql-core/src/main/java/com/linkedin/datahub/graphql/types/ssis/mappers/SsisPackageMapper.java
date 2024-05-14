@@ -12,6 +12,7 @@ import com.linkedin.common.Ownership;
 import com.linkedin.common.Status;
 import com.linkedin.common.urn.Urn;
 import com.linkedin.data.DataMap;
+import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.datahub.graphql.generated.*;
 import com.linkedin.datahub.graphql.types.common.mappers.*;
 import com.linkedin.datahub.graphql.types.common.mappers.util.MappingHelper;
@@ -28,16 +29,19 @@ import com.linkedin.metadata.key.DataPlatformKey;
 import com.linkedin.metadata.utils.EntityKeyUtils;
 import com.linkedin.structured.StructuredProperties;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class SsisPackageMapper implements ModelMapper<EntityResponse, SsisPackage> {
 
   public static final SsisPackageMapper INSTANCE = new SsisPackageMapper();
 
-  public static SsisPackage map(@Nonnull final EntityResponse ssisPackage) {
-    return INSTANCE.apply(ssisPackage);
+  public static SsisPackage map(
+      @Nullable final QueryContext context, @Nonnull final EntityResponse ssisPackage) {
+    return INSTANCE.apply(context, ssisPackage);
   }
 
-  public SsisPackage apply(@Nonnull final EntityResponse entityResponse) {
+  public SsisPackage apply(
+      @Nullable final QueryContext context, @Nonnull final EntityResponse entityResponse) {
     SsisPackage result = new SsisPackage();
     Urn entityUrn = entityResponse.getUrn();
     result.setUrn(entityResponse.getUrn().toString());
@@ -76,51 +80,54 @@ public class SsisPackageMapper implements ModelMapper<EntityResponse, SsisPackag
         INSTITUTIONAL_MEMORY_ASPECT_NAME,
         (ssisPackage, dataMap) ->
             ssisPackage.setInstitutionalMemory(
-                InstitutionalMemoryMapper.map(new InstitutionalMemory(dataMap), entityUrn)));
+                InstitutionalMemoryMapper.map(
+                    context, new InstitutionalMemory(dataMap), entityUrn)));
 
     mappingHelper.mapToResult(
         OWNERSHIP_ASPECT_NAME,
         (ssisPackage, dataMap) ->
-            ssisPackage.setOwnership(OwnershipMapper.map(new Ownership(dataMap), entityUrn)));
+            ssisPackage.setOwnership(
+                OwnershipMapper.map(context, new Ownership(dataMap), entityUrn)));
 
     mappingHelper.mapToResult(
         STATUS_ASPECT_NAME,
-        (ssisPackage, dataMap) -> ssisPackage.setStatus(StatusMapper.map(new Status(dataMap))));
+        (ssisPackage, dataMap) ->
+            ssisPackage.setStatus(StatusMapper.map(context, new Status(dataMap))));
 
     mappingHelper.mapToResult(
         GLOBAL_TAGS_ASPECT_NAME,
-        (ssisPackage, dataMap) -> this.mapGlobalTags(ssisPackage, dataMap, entityUrn));
+        (ssisPackage, dataMap) -> this.mapGlobalTags(context, ssisPackage, dataMap, entityUrn));
 
     mappingHelper.mapToResult(
         GLOSSARY_TERMS_ASPECT_NAME,
         (ssisPackage, dataMap) ->
             ssisPackage.setGlossaryTerms(
-                GlossaryTermsMapper.map(new GlossaryTerms(dataMap), entityUrn)));
+                GlossaryTermsMapper.map(context, new GlossaryTerms(dataMap), entityUrn)));
 
-    mappingHelper.mapToResult(DOMAINS_ASPECT_NAME, this::mapDomains);
+    mappingHelper.mapToResult(context, DOMAINS_ASPECT_NAME, this::mapDomains);
 
     mappingHelper.mapToResult(
         DEPRECATION_ASPECT_NAME,
         (ssisPackage, dataMap) ->
-            ssisPackage.setDeprecation(DeprecationMapper.map(new Deprecation(dataMap))));
+            ssisPackage.setDeprecation(DeprecationMapper.map(context, new Deprecation(dataMap))));
 
     mappingHelper.mapToResult(
         DATA_PLATFORM_INSTANCE_ASPECT_NAME,
         (ssisPackage, dataMap) ->
             ssisPackage.setDataPlatformInstance(
-                DataPlatformInstanceAspectMapper.map(new DataPlatformInstance(dataMap))));
+                DataPlatformInstanceAspectMapper.map(context, new DataPlatformInstance(dataMap))));
 
     mappingHelper.mapToResult(
         BROWSE_PATHS_V2_ASPECT_NAME,
         (ssisPackage, dataMap) ->
             ssisPackage.setBrowsePathV2(
-                BrowsePathsV2Mapper.map(new com.linkedin.common.BrowsePathsV2(dataMap))));
+                BrowsePathsV2Mapper.map(context, new com.linkedin.common.BrowsePathsV2(dataMap))));
 
     mappingHelper.mapToResult(
         STRUCTURED_PROPERTIES_ASPECT_NAME,
         ((ssisPackage, dataMap) ->
             ssisPackage.setStructuredProperties(
-                StructuredPropertiesMapper.map(new StructuredProperties(dataMap)))));
+                StructuredPropertiesMapper.map(context, new StructuredProperties(dataMap)))));
 
     return mappingHelper.getResult();
   }
@@ -175,16 +182,22 @@ public class SsisPackageMapper implements ModelMapper<EntityResponse, SsisPackag
   }
 
   private void mapGlobalTags(
-      @Nonnull SsisPackage ssisPackage, @Nonnull DataMap dataMap, @Nonnull final Urn entityUrn) {
+      @Nullable final QueryContext context,
+      @Nonnull SsisPackage ssisPackage,
+      @Nonnull DataMap dataMap,
+      @Nonnull final Urn entityUrn) {
     com.linkedin.datahub.graphql.generated.GlobalTags globalTags =
-        GlobalTagsMapper.map(new GlobalTags(dataMap), entityUrn);
+        GlobalTagsMapper.map(context, new GlobalTags(dataMap), entityUrn);
 
     ssisPackage.setGlobalTags(globalTags);
   }
 
-  private void mapDomains(@Nonnull SsisPackage ssisPackage, @Nonnull DataMap dataMap) {
+  private void mapDomains(
+      @Nullable final QueryContext context,
+      @Nonnull SsisPackage ssisPackage,
+      @Nonnull DataMap dataMap) {
     final Domains domains = new Domains(dataMap);
 
-    ssisPackage.setDomain(DomainAssociationMapper.map(domains, ssisPackage.getUrn()));
+    ssisPackage.setDomain(DomainAssociationMapper.map(context, domains, ssisPackage.getUrn()));
   }
 }

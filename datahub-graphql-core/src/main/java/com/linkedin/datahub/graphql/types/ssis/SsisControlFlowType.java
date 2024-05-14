@@ -30,7 +30,6 @@ import com.linkedin.entity.client.EntityClient;
 import com.linkedin.metadata.Constants;
 import com.linkedin.metadata.browse.BrowseResult;
 import com.linkedin.metadata.query.AutoCompleteResult;
-import com.linkedin.metadata.query.SearchFlags;
 import com.linkedin.metadata.query.filter.Filter;
 import com.linkedin.metadata.search.SearchResult;
 import com.linkedin.mxe.MetadataChangeProposal;
@@ -134,7 +133,7 @@ public class SsisControlFlowType
                   gmsSsisControlFlow == null
                       ? null
                       : DataFetcherResult.<SsisControlFlow>newResult()
-                          .data(SsisControlFlowMapper.map(gmsSsisControlFlow))
+                          .data(SsisControlFlowMapper.map(context, gmsSsisControlFlow))
                           .build())
           .collect(Collectors.toList());
     } catch (Exception e) {
@@ -153,14 +152,13 @@ public class SsisControlFlowType
     final Map<String, String> facetFilters = ResolverUtils.buildFacetFilters(filters, FACET_FIELDS);
     final SearchResult searchResult =
         _entityClient.search(
+            context.getOperationContext().withSearchFlags(flags -> flags.setFulltext(true)),
             ENTITY_NAME,
             query,
             facetFilters,
             start,
-            count,
-            context.getAuthentication(),
-            new SearchFlags().setFulltext(true));
-    return UrnSearchResultsMapper.map(searchResult);
+            count);
+    return UrnSearchResultsMapper.map(context, searchResult);
   }
 
   @Override
@@ -172,8 +170,9 @@ public class SsisControlFlowType
       @Nonnull final QueryContext context)
       throws Exception {
     final AutoCompleteResult result =
-        _entityClient.autoComplete(ENTITY_NAME, query, filters, limit, context.getAuthentication());
-    return AutoCompleteResultsMapper.map(result);
+        _entityClient.autoComplete(
+            context.getOperationContext(), ENTITY_NAME, query, filters, limit);
+    return AutoCompleteResultsMapper.map(context, result);
   }
 
   @Override
@@ -189,8 +188,13 @@ public class SsisControlFlowType
         path.size() > 0 ? BROWSE_PATH_DELIMITER + String.join(BROWSE_PATH_DELIMITER, path) : "";
     final BrowseResult result =
         _entityClient.browse(
-            ENTITY_NAME, pathStr, facetFilters, start, count, context.getAuthentication());
-    return BrowseResultMapper.map(result);
+            context.getOperationContext().withSearchFlags(flags -> flags.setFulltext(false)),
+            ENTITY_NAME,
+            pathStr,
+            facetFilters,
+            start,
+            count);
+    return BrowseResultMapper.map(context, result);
   }
 
   @Override
@@ -198,7 +202,7 @@ public class SsisControlFlowType
       throws Exception {
     final StringArray result =
         _entityClient.getBrowsePaths(new Urn(urn), context.getAuthentication());
-    return BrowsePathsMapper.map(result);
+    return BrowsePathsMapper.map(context, result);
   }
 
   @Override
@@ -209,7 +213,7 @@ public class SsisControlFlowType
       final CorpuserUrn actor =
           CorpuserUrn.createFromString(context.getAuthentication().getActor().toUrnStr());
       final Collection<MetadataChangeProposal> proposals =
-          SsisControlFlowUpdateInputMapper.map(input, actor);
+          SsisControlFlowUpdateInputMapper.map(context, input, actor);
       proposals.forEach(proposal -> proposal.setEntityUrn(UrnUtils.getUrn(urn)));
 
       try {

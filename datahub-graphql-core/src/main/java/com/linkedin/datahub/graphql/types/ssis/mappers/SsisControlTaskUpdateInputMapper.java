@@ -7,6 +7,7 @@ import com.linkedin.common.GlobalTags;
 import com.linkedin.common.TagAssociationArray;
 import com.linkedin.common.urn.Urn;
 import com.linkedin.data.template.SetMode;
+import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.datahub.graphql.generated.SsisControlTaskUpdateInput;
 import com.linkedin.datahub.graphql.types.common.mappers.InstitutionalMemoryUpdateMapper;
 import com.linkedin.datahub.graphql.types.common.mappers.OwnershipUpdateMapper;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class SsisControlTaskUpdateInputMapper
     implements InputModelMapper<
@@ -28,26 +30,27 @@ public class SsisControlTaskUpdateInputMapper
       new SsisControlTaskUpdateInputMapper();
 
   public static Collection<MetadataChangeProposal> map(
+      @Nullable final QueryContext context,
       @Nonnull final SsisControlTaskUpdateInput ssisControlTaskUpdateInput,
       @Nonnull final Urn actor) {
-    return INSTANCE.apply(ssisControlTaskUpdateInput, actor);
+    return INSTANCE.apply(context, ssisControlTaskUpdateInput, actor);
   }
 
   @Override
   public Collection<MetadataChangeProposal> apply(
+      @Nullable final QueryContext context,
       @Nonnull final SsisControlTaskUpdateInput ssisControlTaskUpdateInput,
       @Nonnull final Urn actor) {
     final Collection<MetadataChangeProposal> proposals = new ArrayList<>(3);
-    final UpdateMappingHelper updateMappingHelper = new UpdateMappingHelper(DATA_JOB_ENTITY_NAME);
-
     final AuditStamp auditStamp = new AuditStamp();
     auditStamp.setActor(actor, SetMode.IGNORE_NULL);
     auditStamp.setTime(System.currentTimeMillis());
+    final UpdateMappingHelper updateMappingHelper = new UpdateMappingHelper(DATA_JOB_ENTITY_NAME);
 
     if (ssisControlTaskUpdateInput.getOwnership() != null) {
       proposals.add(
           updateMappingHelper.aspectToProposal(
-              OwnershipUpdateMapper.map(ssisControlTaskUpdateInput.getOwnership(), actor),
+              OwnershipUpdateMapper.map(context, ssisControlTaskUpdateInput.getOwnership(), actor),
               OWNERSHIP_ASPECT_NAME));
     }
 
@@ -57,7 +60,7 @@ public class SsisControlTaskUpdateInputMapper
       globalTags.setTags(
           new TagAssociationArray(
               ssisControlTaskUpdateInput.getTags().getTags().stream()
-                  .map(TagAssociationUpdateMapper::map)
+                  .map(element -> TagAssociationUpdateMapper.map(context, element))
                   .collect(Collectors.toList())));
 
       proposals.add(updateMappingHelper.aspectToProposal(globalTags, TAG_KEY_ASPECT_NAME));
@@ -80,7 +83,7 @@ public class SsisControlTaskUpdateInputMapper
       proposals.add(
           updateMappingHelper.aspectToProposal(
               InstitutionalMemoryUpdateMapper.map(
-                  ssisControlTaskUpdateInput.getInstitutionalMemory()),
+                  context, ssisControlTaskUpdateInput.getInstitutionalMemory()),
               INSTITUTIONAL_MEMORY_ASPECT_NAME));
     }
 

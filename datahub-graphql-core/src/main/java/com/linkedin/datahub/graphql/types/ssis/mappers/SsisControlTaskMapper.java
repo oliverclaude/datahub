@@ -15,6 +15,7 @@ import com.linkedin.common.Ownership;
 import com.linkedin.common.Status;
 import com.linkedin.common.urn.Urn;
 import com.linkedin.data.DataMap;
+import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.datahub.graphql.generated.*;
 import com.linkedin.datahub.graphql.types.common.mappers.*;
 import com.linkedin.datahub.graphql.types.common.mappers.util.MappingHelper;
@@ -30,16 +31,19 @@ import com.linkedin.entity.EnvelopedAspectMap;
 import com.linkedin.structured.StructuredProperties;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class SsisControlTaskMapper implements ModelMapper<EntityResponse, SsisControlTask> {
 
   public static final SsisControlTaskMapper INSTANCE = new SsisControlTaskMapper();
 
-  public static SsisControlTask map(@Nonnull final EntityResponse ssisControlTask) {
-    return INSTANCE.apply(ssisControlTask);
+  public static SsisControlTask map(
+      @Nullable final QueryContext context, @Nonnull final EntityResponse ssisControlTask) {
+    return INSTANCE.apply(context, ssisControlTask);
   }
 
-  public SsisControlTask apply(@Nonnull final EntityResponse entityResponse) {
+  public SsisControlTask apply(
+      @Nullable final QueryContext context, @Nonnull final EntityResponse entityResponse) {
     SsisControlTask result = new SsisControlTask();
     Urn entityUrn = entityResponse.getUrn();
     result.setUrn(entityResponse.getUrn().toString());
@@ -83,47 +87,51 @@ public class SsisControlTaskMapper implements ModelMapper<EntityResponse, SsisCo
         INSTITUTIONAL_MEMORY_ASPECT_NAME,
         (ssisControlTask, dataMap) ->
             ssisControlTask.setInstitutionalMemory(
-                InstitutionalMemoryMapper.map(new InstitutionalMemory(dataMap), entityUrn)));
+                InstitutionalMemoryMapper.map(
+                    context, new InstitutionalMemory(dataMap), entityUrn)));
     mappingHelper.mapToResult(
         OWNERSHIP_ASPECT_NAME,
         (ssisControlTask, dataMap) ->
-            ssisControlTask.setOwnership(OwnershipMapper.map(new Ownership(dataMap), entityUrn)));
+            ssisControlTask.setOwnership(
+                OwnershipMapper.map(context, new Ownership(dataMap), entityUrn)));
     mappingHelper.mapToResult(
         STATUS_ASPECT_NAME,
         (ssisControlTask, dataMap) ->
-            ssisControlTask.setStatus(StatusMapper.map(new Status(dataMap))));
+            ssisControlTask.setStatus(StatusMapper.map(context, new Status(dataMap))));
     mappingHelper.mapToResult(
         GLOBAL_TAGS_ASPECT_NAME,
-        (ssisControlTask, dataMap) -> this.mapGlobalTags(ssisControlTask, dataMap, entityUrn));
+        (ssisControlTask, dataMap) ->
+            this.mapGlobalTags(context, ssisControlTask, dataMap, entityUrn));
 
     mappingHelper.mapToResult(
         GLOSSARY_TERMS_ASPECT_NAME,
         (ssisControlTask, dataMap) ->
             ssisControlTask.setGlossaryTerms(
-                GlossaryTermsMapper.map(new GlossaryTerms(dataMap), entityUrn)));
+                GlossaryTermsMapper.map(context, new GlossaryTerms(dataMap), entityUrn)));
 
-    mappingHelper.mapToResult(DOMAINS_ASPECT_NAME, this::mapDomains);
+    mappingHelper.mapToResult(context, DOMAINS_ASPECT_NAME, this::mapDomains);
     mappingHelper.mapToResult(
         DEPRECATION_ASPECT_NAME,
         (ssisControlTask, dataMap) ->
-            ssisControlTask.setDeprecation(DeprecationMapper.map(new Deprecation(dataMap))));
+            ssisControlTask.setDeprecation(
+                DeprecationMapper.map(context, new Deprecation(dataMap))));
     mappingHelper.mapToResult(
         DATA_PLATFORM_INSTANCE_ASPECT_NAME,
         (ssisControlTask, dataMap) ->
             ssisControlTask.setDataPlatformInstance(
-                DataPlatformInstanceAspectMapper.map(new DataPlatformInstance(dataMap))));
+                DataPlatformInstanceAspectMapper.map(context, new DataPlatformInstance(dataMap))));
 
     mappingHelper.mapToResult(
         BROWSE_PATHS_V2_ASPECT_NAME,
         (ssisControlTask, dataMap) ->
             ssisControlTask.setBrowsePathV2(
-                BrowsePathsV2Mapper.map(new com.linkedin.common.BrowsePathsV2(dataMap))));
+                BrowsePathsV2Mapper.map(context, new com.linkedin.common.BrowsePathsV2(dataMap))));
 
     mappingHelper.mapToResult(
         STRUCTURED_PROPERTIES_ASPECT_NAME,
         ((ssisControlTask, dataMap) ->
             ssisControlTask.setStructuredProperties(
-                StructuredPropertiesMapper.map(new StructuredProperties(dataMap)))));
+                StructuredPropertiesMapper.map(context, new StructuredProperties(dataMap)))));
 
     return mappingHelper.getResult();
   }
@@ -227,16 +235,21 @@ public class SsisControlTaskMapper implements ModelMapper<EntityResponse, SsisCo
   }
 
   private void mapGlobalTags(
+      @Nullable final QueryContext context,
       @Nonnull SsisControlTask ssisControlTask,
       @Nonnull DataMap dataMap,
       @Nonnull final Urn entityUrn) {
     com.linkedin.datahub.graphql.generated.GlobalTags globalTags =
-        GlobalTagsMapper.map(new GlobalTags(dataMap), entityUrn);
+        GlobalTagsMapper.map(context, new GlobalTags(dataMap), entityUrn);
     ssisControlTask.setGlobalTags(globalTags);
   }
 
-  private void mapDomains(@Nonnull SsisControlTask ssisControlTask, @Nonnull DataMap dataMap) {
+  private void mapDomains(
+      @Nullable final QueryContext context,
+      @Nonnull SsisControlTask ssisControlTask,
+      @Nonnull DataMap dataMap) {
     final Domains domains = new Domains(dataMap);
-    ssisControlTask.setDomain(DomainAssociationMapper.map(domains, ssisControlTask.getUrn()));
+    ssisControlTask.setDomain(
+        DomainAssociationMapper.map(context, domains, ssisControlTask.getUrn()));
   }
 }

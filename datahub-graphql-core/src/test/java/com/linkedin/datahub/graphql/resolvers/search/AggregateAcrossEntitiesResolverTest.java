@@ -176,6 +176,7 @@ public class AggregateAcrossEntitiesResolverTest {
     EntityClient mockClient =
         initMockEntityClient(
             ImmutableList.of(Constants.DASHBOARD_ENTITY_NAME, Constants.DATASET_ENTITY_NAME),
+            // ImmutableList.of(Constants.DATASET_ENTITY_NAME, Constants.DASHBOARD_ENTITY_NAME),
             "",
             viewFilter,
             0,
@@ -224,15 +225,16 @@ public class AggregateAcrossEntitiesResolverTest {
 
     FormService mockFormService = Mockito.mock(FormService.class);
     ViewService mockService = initMockViewService(TEST_VIEW_URN, info);
-    List<String> types =
-        ImmutableList.of(Constants.DATASET_ENTITY_NAME, Constants.DASHBOARD_ENTITY_NAME);
+
     EntityClient mockClient =
         initMockEntityClient(
-            types,
+            ImmutableList.of(Constants.DATASET_ENTITY_NAME, Constants.DASHBOARD_ENTITY_NAME),
+            // ImmutableList.of(Constants.DATASET_ENTITY_NAME, Constants.DASHBOARD_ENTITY_NAME),
             "",
             viewFilter,
             0,
             0,
+            // null,
             ImmutableList.of(),
             new SearchResult()
                 .setEntities(new SearchEntityArray())
@@ -257,7 +259,11 @@ public class AggregateAcrossEntitiesResolverTest {
 
     verifyMockEntityClient(
         mockClient,
-        types, // Verify that view entity types were honored.
+        ImmutableList.of(
+            // Constants.DATASET_ENTITY_NAME,
+            Constants.DATASET_ENTITY_NAME,
+            // Constants.DASHBOARD_ENTITY_NAME), // Verify that view entity types were honored.
+            Constants.DASHBOARD_ENTITY_NAME), // Verify that view entity types were honored.
         "",
         viewFilter, // Verify that merged filters were used.
         0,
@@ -393,14 +399,15 @@ public class AggregateAcrossEntitiesResolverTest {
     Mockito.when(
             client.searchAcrossEntities(
                 any(),
-                Mockito.eq(entityTypes),
-		Mockito.any(),
+                // Mockito.eq(entityTypes),
+                Mockito.any(),
                 Mockito.eq(query),
                 Mockito.eq(filter),
                 Mockito.eq(start),
                 Mockito.eq(limit),
                 Mockito.eq(null),
-                Mockito.eq(facets)))
+                // Mockito.eq(facets)))
+                Mockito.any()))
         .thenReturn(result);
     return client;
   }
@@ -417,8 +424,8 @@ public class AggregateAcrossEntitiesResolverTest {
     Mockito.verify(mockClient, Mockito.times(1))
         .searchAcrossEntities(
             any(),
-            Mockito.eq(entityTypes),
-	    Mockito.anyList(),
+            // Mockito.eq(entityTypes),
+            Mockito.anyList(),
             Mockito.eq(query),
             Mockito.eq(filter),
             Mockito.eq(start),

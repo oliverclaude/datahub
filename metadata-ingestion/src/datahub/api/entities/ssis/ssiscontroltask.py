@@ -5,8 +5,8 @@ from typing import Callable, Iterable, List, Optional
 from datahub.api.entities.ssis.ssisbase import SsisBaseEntity
 from datahub.emitter.generic_emitter import Emitter
 from datahub.emitter.mcp import MetadataChangeProposalWrapper
-from datahub.metadata._schema_classes import EditableSsisControlTaskPropertiesClass
 from datahub.metadata.schema_classes import (
+    EditableSsisControlTaskPropertiesClass,
     SsisControlTaskInfoClass,
     SsisControlTaskInputOutputClass,
     StatusClass,

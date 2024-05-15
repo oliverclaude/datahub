@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Dict, Iterable, Optional, Set
 
 import datahub.emitter.mce_builder as builder
-from datahub.metadata._schema_classes import (
+from datahub.metadata.schema_classes import (
     AuditStampClass,
     GlobalTagsClass,
     OwnerClass,

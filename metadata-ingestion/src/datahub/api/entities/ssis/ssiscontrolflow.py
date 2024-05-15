@@ -5,8 +5,10 @@ from typing import Callable, Iterable, Optional
 from datahub.api.entities.ssis.ssisbase import SsisBaseEntity
 from datahub.emitter.generic_emitter import Emitter
 from datahub.emitter.mcp import MetadataChangeProposalWrapper
-from datahub.metadata._schema_classes import EditableSsisControlFlowPropertiesClass
-from datahub.metadata.schema_classes import SsisControlFlowInfoClass
+from datahub.metadata.schema_classes import (
+    EditableSsisControlFlowPropertiesClass,
+    SsisControlFlowInfoClass,
+)
 
 
 @dataclass

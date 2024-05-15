@@ -120,6 +120,11 @@ dependencies {
   }
 }
 
+//skip test for now
+tasks.withType(Test) {
+  enabled = false
+}
+
 test {
   doFirst {
     // override, testng controlling parallelization

@@ -11,7 +11,7 @@ services:
       - "3306:3306"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - mysqldata:/var/lib/mysql
+        # - mysqldata:/var/lib/mysql
 
   datahub-gms:
     env_file: ../datahub-gms/env/docker.env
